@@ -1,0 +1,37 @@
+body{
+    background: rgb(16,26,79);
+    background: -moz-linear-gradient(0deg, rgba(16,26,79,1) 6%, rgba(48,45,128,1) 42%, rgba(108,0,22,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(16,26,79,1) 6%, rgba(48,45,128,1) 42%, rgba(108,0,22,1) 100%);
+    background: linear-gradient(0deg, rgba(16,26,79,1) 6%, rgba(48,45,128,1) 42%, rgba(108,0,22,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#101a4f",endColorstr="#6c0016",GradientType=1);
+background-repeat: no-repeat;
+background-size:auto;
+height: fit-content
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #424242; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #5d4a6e ;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background:#5d4a6e 
+  }
+
+  @media  screen and (max-width:900px) {
+      body{
+          height: 180vh;
+      }
+      
+  }

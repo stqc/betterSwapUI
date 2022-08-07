@@ -1,0 +1,38 @@
+.MuiBox-root.css-1nl0624{
+    display: none;
+}
+.main-content{
+    display: none;
+}
+.main-content-PC{
+    padding: 2% 2% 2% 2%;
+    display: block;
+    margin: 2%;
+    
+}
+.chart-swap{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 1%
+}
+.chart{
+    background-color: black;
+    border-radius: 20px
+}
+.hist{
+    margin-top: 2%;
+}
+@media screen and (max-width:900px){
+    .MuiBox-root.css-1nl0624{
+        display: initial;
+    }
+    .main-content{
+        display: block;
+        padding: 5% 2% 2% 2%;
+    }
+    .main-content-PC{
+        display: none;
+    }
+
+    
+}

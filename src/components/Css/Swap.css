@@ -1,0 +1,61 @@
+.swap-content{
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: black;
+    
+    border-radius: 20px;
+    padding: 5%;
+}
+
+.token-trade-selector{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+
+.token-trade{
+    display: grid;
+    grid-template-columns: 1fr;
+    padding-top: 4%;
+    grid-gap:2%;
+
+}
+#execute{
+    background: rgb(0,93,120);
+background: -moz-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
+background: -webkit-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
+background: linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005d78",endColorstr="#a2f7ff",GradientType=1);
+}
+
+.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-e4w4as-MuiFormLabel-root-MuiInputLabel-root{
+    color: #816797;
+
+}
+th,td{
+    word-wrap: break-word;
+}
+#Token-Information{
+    background-color: black;
+    color: #816797;
+}
+
+#Token-information>td{
+    word-wrap: break-word;
+}
+
+.MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    
+    background-color: #8167973d;
+    
+}
+.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-shrink.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPrimary.MuiFormLabel-filled.css-o943dk-MuiFormLabel-root-MuiInputLabel-root{
+    color: #816797;
+}
+#filled-basic-label{
+    color: #816797;
+}
+.MuiFilledInput-input.MuiInputBase-input.css-10botns-MuiInputBase-input-MuiFilledInput-input{
+    color:white;
+}
