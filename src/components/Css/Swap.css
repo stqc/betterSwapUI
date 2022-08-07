@@ -27,6 +27,7 @@ background: -moz-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1)
 background: -webkit-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
 background: linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005d78",endColorstr="#a2f7ff",GradientType=1);
+margin: 5%
 }
 
 .MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-e4w4as-MuiFormLabel-root-MuiInputLabel-root{
