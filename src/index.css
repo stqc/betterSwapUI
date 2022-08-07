@@ -29,9 +29,9 @@ height: fit-content;
     background:#5d4a6e 
   }
 
-  /* @media  screen and (max-width:900px) {
+  @media  screen and (max-width:900px) {
       body{
           height: 180vh;
       }
       
-  } */
+  }
