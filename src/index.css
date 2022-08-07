@@ -6,7 +6,7 @@ body{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#101a4f",endColorstr="#6c0016",GradientType=1);
 background-repeat: no-repeat;
 background-size:auto;
-height: fit-content
+height: fit-content;
 }
 
 /* width */
@@ -29,9 +29,9 @@ height: fit-content
     background:#5d4a6e 
   }
 
-  @media  screen and (max-width:900px) {
+  /* @media  screen and (max-width:900px) {
       body{
           height: 180vh;
       }
       
-  }
+  } */
