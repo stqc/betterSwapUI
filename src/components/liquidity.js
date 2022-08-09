@@ -26,8 +26,8 @@ export default function Liquidity(props){
     return(
         <div className="swap-content">
             <div className="token-trade-selector">
-                <Button variant="contained" onClick={()=>{changeSelected("Add Liquidity"),changeLabel('Enter USD Amount')}}style={{backgroundColor:"green"}}>Add Liquidity</Button>
-                <Button variant="contained" onClick={()=>{changeSelected("Remove Liquidity"),changeLabel('Enter Token Amount')}}style={{backgroundColor:"#800000"}}>Remove Liquidity</Button>
+                <Button variant="contained" onClick={()=>{changeSelected("Add Liquidity")}}style={{backgroundColor:"green"}}>Add Liquidity</Button>
+                <Button variant="contained" onClick={()=>{changeSelected("Remove Liquidity")}}style={{backgroundColor:"#800000"}}>Remove Liquidity</Button>
 
             </div>
             <ThemeProvider theme={theme}>
