@@ -15,26 +15,29 @@ function createData(name, calories, fat, carbs, protein) {
 
 
 export default function DenseTable(props) {
-  var data ={Address:null,
-    token2USD: null,
-    USD2token: null,
-    buyTax: null,
-    saleTax: null};
-
-  React.useEffect(()=>{
-    console.log(props.poolInfo)
-    data = props.poolInfo
-  })
+  var data = getPoolInfo();
   
-  const rows = [
+  React.useEffect( async ()=>{
+    
+    changeRows([createData('Token Name', data.name ),
+    createData('Pool Address', data.Address),
+    createData('Total Supply', data.supply),
+    createData('Tokens/USD', data.token2USD),
+    createData('USD/Token', data.USD2token),
+    createData('Buy Tax',data.buyTax),
+    createData('Sell Tax',data.saleTax)]);
+    console.log(data);
+  },[data]);
+  
+  const [rows,changeRows] = React.useState( [
     createData('Token Name', 'Bitcoin' ),
-    createData('Address', data.Address),
+    createData('Pool Address', data.Address),
     createData('Total Supply', ''),
     createData('Tokens/USD', data.token2USD),
     createData('USD/Token', data.USD2token),
     createData('Buy Tax',data.buyTax),
     createData('Sell Tax',data.saleTax)
-  ];
+  ]);
   return (
 
 
