@@ -43,10 +43,10 @@ const App = () => {
         {visible=="Liquidity" && <Liquidity/>}
       </div>
       <div className="main-content-PC">
-        <SearchToken/>
+        <SearchToken update={updatepoolInfo}/>
         <div className ="chart-swap">
           <div className="chart"></div>
-          <Swap/>
+          <Swap pooli ={pool}/>
         </div>
         <div className="hist">
           <History/>
