@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { createTheme } from '@mui/material/styles';
 import "./Css/search.css";
+import { getPool } from "./connection";
+import { createRef } from "react";
 
 const theme = createTheme({
     status: {
@@ -18,17 +20,25 @@ const theme = createTheme({
   }}
   );
 
-function SearchToken(){
-
+function SearchToken(props){
+    var newRef = createRef();
+    const [pool,updatePool] = useState(null);
     return(
         <div className="token-search">
             <ThemeProvider theme={theme}>
-                <TextField label="Enter Token address" variant="filled" color="pink"/>
-                <Button variant="contained" id="search-btn">Search</Button>
+                <TextField label="Enter Token address" variant="filled" color="pink" inputRef={newRef}/>
+
+                <Button variant="contained" id="search-btn"
+                onClick={
+                  async()=>{
+                    updatePool(await getPool(newRef.current.value));
+                    props.update();
+                  }
+                }>Search</Button>
           </ThemeProvider>
         </div>
     );
 
 }
 
-export default SearchToken;
+export {SearchToken};

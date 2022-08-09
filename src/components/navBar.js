@@ -11,8 +11,12 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import './Css/navBar.css';
+import { connectToWeb3, getConnectedAccount } from './connection';
 
-const pages = ['Trade', 'Launchpad', 'Create a token', <Button variant="outlined" style={{color:"#d19b00",
+const pages = ['Trade', 'Launchpad', 'Create a token', <Button variant="outlined"  onClick={async ()=>{
+  await connectToWeb3();
+  console.log( await getConnectedAccount());
+}}style={{color:"#d19b00",
 borderColor:"#d19b00"}}>Connect</Button>];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 

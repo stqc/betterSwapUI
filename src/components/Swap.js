@@ -33,7 +33,7 @@ export default function Swap(props){
             </div>
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
-                    <DenseTable style={{backgroundColor:"#8167973d"}}/>
+                    <DenseTable style={{backgroundColor:"#8167973d"}} poolInfo={props.pooli}/>
                     <TextField id="filled-basic" color={"pink"}label={labelContent} variant="filled" />
                     <Button variant="contained" id="execute" >{selected}</Button>
                 </div>
