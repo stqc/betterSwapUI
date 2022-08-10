@@ -6,6 +6,8 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from "@mui/system";
 import { useState,useEffect } from "react";
 import DenseTable from "./InfoTable";
+import { getConnectedAccount,approveTX, USDAddress,tokenAD,buyToken, sellToken} from "./connection";
+
 
 const theme = createTheme({
   status: {
@@ -21,9 +23,13 @@ const theme = createTheme({
 );
 
 export default function Swap(props){
+    var connected= getConnectedAccount();
+    
     const [selected,changeSelected] =useState('Buy Token')
     const [labelContent,changeLabel] =useState("Enter USD Amount");
+    const amountRef = React.createRef();
 
+    
     return(
         <div className="swap-content">
             <div className="token-trade-selector">
@@ -34,9 +40,12 @@ export default function Swap(props){
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
                     <DenseTable style={{backgroundColor:"#8167973d"}} poolInfo={props.pooli}/>
-                    <TextField id="filled-basic" color={"pink"}label={labelContent} variant="filled" />
-                    <Button variant="contained" id="execute" >Approve</Button>
-                    <Button variant="contained" id="execute" >{selected}</Button>
+                    <TextField id="filled-basic" color={"pink"}label={labelContent} variant="filled" inputRef={amountRef}/>
+
+                    {(selected=='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{approveTX(USDAddress,amountRef.current.value)}} >Approve</Button>)}
+                    {(selected=='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{buyToken(amountRef.current.value)}}>{selected}</Button>)}
+                    {(selected!='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{approveTX(tokenAD,amountRef.current.value)}} >Approve</Button>)}
+                    {(selected!='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{sellToken(amountRef.current.value)}}>{selected}</Button>)}
                 </div>
             </ThemeProvider>
         </div>
