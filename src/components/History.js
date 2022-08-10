@@ -48,7 +48,7 @@ export default function History() {
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.name+Date.now()}
               sx={{ '&:last-child td, &:last-child th': { border: 0 },
               }}
             >
