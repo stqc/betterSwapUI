@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
-import Navbar from "./components/navBar";
-import Particles from "./components/Particles";
-import Bottom from "./components/bottomnva";
-import './components/Css/app.css';
+import Navbar from "./navBar";
+import Bottom from "./bottomnva";
+import './app.css';
 import { useMediaQuery } from "@mui/material";
-import Swap from './components/Swap';
-import History from './components/History';
-import {SearchToken} from './components/search';
-import Liquidity from "./components/liquidity";
-import { getConnectedAccount, getFactoryContract, getFactory,getPoolInfo} from "./components/connection";
+import Swap from './Swap';
+import History from './History';
+import {SearchToken} from './search';
+import Liquidity from "./liquidity";
+import {getFactoryContract, getFactory,getPoolInfo} from "./connection.js";
 
 const App = () => {
  const maxW = useMediaQuery(
@@ -18,11 +16,11 @@ const App = () => {
 
  const[visible,setVisible] = useState("Swap");
   useEffect(async()=>{
-     await getFactoryContract();
-     var fact = await getFactory();
-     console.log(fact._address);
+    console.log(typeof web3 == 'undefined')
+    var fact;
+    typeof web3=='undefined'?alert(' meh'):await getFactoryContract()
   },[]);
-  
+    
     const [pool,updatePool] = useState({Address:"",
       token2USD: "",
       USD2token: "null",
@@ -35,7 +33,7 @@ const App = () => {
     <>
     
       <Navbar />
-      
+      <div id="web3-found">
       <div className="main-content">
         <SearchToken update={updatepoolInfo}/>
         {visible==="Swap" && <Swap pooli ={pool}/>}
@@ -54,7 +52,7 @@ const App = () => {
       </div>
       <Bottom setVisible={setVisible}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
 
-      
+      </div>
        
         
     </>
