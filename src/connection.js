@@ -110,10 +110,33 @@ const sellToken =async (USD)=>{
         alert(e.message);
      }
 }
+
+const addLiquidity= async(USD,Token)=>{
+    USD = web3.utils.toWei(USD);
+    Token = web3.utils.toWei(Token);
+    try{
+        var tx = await pool.methods.addLiquidity(Token,USD).send({from:connectedAccount[0]});
+        console.log(tx);
+        alert(tx.blockHash);
+    }
+    catch(e){
+        alert(e.message);
+    }
+}
+const requestLiquidityRemoval= async()=>{
+    try{
+        var tx = await pool.methods.approveEmergencyWithdraw().send({from:connectedAccount[0]});
+        console.log(tx);
+        alert(tx.blockHash);
+    }
+    catch(e){
+        alert(e.message);
+    }
+}
 window.ethereum.on("accountsChanged",async (acc)=>{
     connectedAccount = acc;
     console.log(connectedAccount);
   })
 
 export {connectToWeb3,getConnectedAccount,getFactoryContract, getFactory, getPool,getPoolInfo,approveTX
-,USDAddress,tokenAD,buyToken,sellToken};
+,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval};
