@@ -21,6 +21,9 @@
 }
 .hist{
     margin-top: 2%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap:1%;
 }
 #web3-notfound{
     display: none;

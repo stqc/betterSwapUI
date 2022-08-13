@@ -6,6 +6,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from "@mui/system";
 import { useState,useEffect } from "react";
 import DenseTable from "./InfoTable";
+import { addLiquidity,requestLiquidityRemoval } from "./connection";
 
 const theme = createTheme({
   status: {
@@ -22,7 +23,8 @@ const theme = createTheme({
 
 export default function Liquidity(props){
     const [selected,changeSelected] =useState('Add Liquidity')
-
+    var USDAmt = React.createRef();
+    var TokenAmt = React.createRef();
     return(
         <div className="swap-content">
             <div className="token-trade-selector">
@@ -33,9 +35,17 @@ export default function Liquidity(props){
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
                     <DenseTable style={{backgroundColor:"#8167973d"}}/>
-                    { selected=="Add Liquidity" && <TextField id="filled-basic" color={"pink"}label={"Enter USD Amount"} variant="filled" /> }
-                    { selected=="Add Liquidity" && <TextField id="filled-basic" color={"pink"}label={"Enter Token Amount"} variant="filled" /> }
-                    <Button variant="contained" id="execute" >{selected}</Button>
+                    { selected=="Add Liquidity" && <TextField id="filled-basic" color={"pink"}label={"Enter USD Amount"} variant="filled" inputRef={USDAmt} /> }
+                    { selected=="Add Liquidity" && <TextField id="filled-basic" color={"pink"}label={"Enter Token Amount"} variant="filled" inputRef={TokenAmt}/> }
+                    <Button variant="contained" id="execute" 
+                        onClick={()=>{
+                            if(selected=="Add Liquidity"){
+                                addLiquidity(USDAmt.current.value,TokenAmt.current.value);
+                            }else{
+                                requestLiquidityRemoval();
+                            }
+                        }}
+                    >{selected}</Button>
                 </div>
             </ThemeProvider>
         </div>

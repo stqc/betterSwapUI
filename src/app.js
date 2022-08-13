@@ -16,9 +16,7 @@ const App = () => {
 
  const[visible,setVisible] = useState("Swap");
   useEffect(async()=>{
-    console.log(typeof web3 == 'undefined')
-    var fact;
-    typeof web3=='undefined'?alert(' meh'):await getFactoryContract()
+      await getFactoryContract()
   },[]);
     
     const [pool,updatePool] = useState({Address:"",
@@ -37,7 +35,9 @@ const App = () => {
       <div className="main-content">
         <SearchToken update={updatepoolInfo}/>
         {visible==="Swap" && <Swap pooli ={pool}/>}
-        {visible==="History" && <History/>}
+        {visible==="History" && <div style={{backgroundColor:"black", borderRadius:"20px", padding:"4%"}}>
+            <History/>
+          </div>}
         {visible=="Liquidity" && <Liquidity/>}
       </div>
       <div className="main-content-PC">
@@ -47,7 +47,10 @@ const App = () => {
           <Swap pooli ={pool}/>
         </div>
         <div className="hist">
-          <History/>
+          <div style={{backgroundColor:"black", borderRadius:"20px", padding:"4%"}}>
+            <History/>
+          </div>
+          <Liquidity/>
         </div>
       </div>
       <Bottom setVisible={setVisible}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
