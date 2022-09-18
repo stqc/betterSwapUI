@@ -6,7 +6,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from "@mui/system";
 import { useState,useEffect } from "react";
 import DenseTable from "./InfoTable";
-import { addLiquidity,requestLiquidityRemoval } from "./connection";
+import { addLiquidity,requestLiquidityRemoval,approveTX,USDAddress,tokenAD } from "./connection";
 
 const theme = createTheme({
   status: {
@@ -34,9 +34,11 @@ export default function Liquidity(props){
             </div>
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
-                    <DenseTable style={{backgroundColor:"#8167973d"}}/>
+                    {/* <DenseTable style={{backgroundColor:"#8167973d"}}/> */}
                     { selected=="Add Liquidity" && <TextField id="filled-basic" color={"pink"}label={"Enter USD Amount"} variant="filled" inputRef={USDAmt} /> }
                     { selected=="Add Liquidity" && <TextField id="filled-basic" color={"pink"}label={"Enter Token Amount"} variant="filled" inputRef={TokenAmt}/> }
+                    {(selected=='Add Liquidity' && <Button variant="contained" id="execute" onClick={()=>{approveTX(USDAddress,USDAmt.current.value)}} >Approve USD</Button>)}
+                    {(selected=='Add Liquidity' && <Button variant="contained" id="execute" onClick={()=>{approveTX(tokenAD,TokenAmt.current.value)}} >Approve Token</Button>)}
                     <Button variant="contained" id="execute" 
                         onClick={()=>{
                             if(selected=="Add Liquidity"){
@@ -47,6 +49,7 @@ export default function Liquidity(props){
                         }}
                     >{selected}</Button>
                 </div>
+                
             </ThemeProvider>
         </div>
     );

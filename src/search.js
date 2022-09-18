@@ -6,7 +6,7 @@ import { createTheme } from '@mui/material/styles';
 import "./search.css";
 import { getPool } from "./connection.js";
 import { createRef } from "react";
-
+import { buildChart } from "./connection.js";
 const theme = createTheme({
     status: {
       danger: '#e53e3e',
@@ -32,7 +32,9 @@ function SearchToken(props){
                 onClick={
                   async()=>{
                     updatePool(await getPool(newRef.current.value));
-                    props.update();
+                    await props.update();
+                    buildChart();
+                    console.log("callewd chrt")
                   }
                 }>Search</Button>
           </ThemeProvider>
