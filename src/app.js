@@ -9,12 +9,15 @@ import {SearchToken} from './search';
 import Liquidity from "./liquidity";
 import {getFactoryContract, getFactory,getPoolInfo} from "./connection.js";
 
+
 const App = () => {
  const maxW = useMediaQuery(
    '(max-width:900 px)'
  )  
 
- const[visible,setVisible] = useState("Swap");
+ const[Sgrid,setSgrid] = useState("grid");
+ const[Cgrid,setCgrid] =useState('none');
+ const[Lgrid,setLgrid] =useState('none');
   useEffect(async()=>{
       await getFactoryContract()
   },[]);
@@ -33,27 +36,24 @@ const App = () => {
       <Navbar />
       <div id="web3-found">
       <div className="main-content">
-        <SearchToken update={updatepoolInfo}/>
-        {visible==="Swap" && <Swap pooli ={pool}/>}
-        {visible==="History" && <div style={{backgroundColor:"black", borderRadius:"20px", padding:"4%"}}>
-            <History/>
-          </div>}
-        {visible=="Liquidity" && <Liquidity/>}
+        <SearchToken update={updatepoolInfo} />
+        <div style={{display:Sgrid}}><Swap pooli ={pool}/></div>
+          <div className="chart" id="chrt-m" style={{display:Cgrid}}> </div>
+          <div  style={{display:Lgrid}}><Liquidity/></div>
       </div>
       <div className="main-content-PC">
         <SearchToken update={updatepoolInfo}/>
         <div className ="chart-swap">
-          <div className="chart"></div>
+          <div className="chart" id="chrt">
+            
+          </div>
           <Swap pooli ={pool}/>
         </div>
         <div className="hist">
-          <div style={{backgroundColor:"black", borderRadius:"20px", padding:"4%"}}>
-            <History/>
-          </div>
           <Liquidity/>
         </div>
       </div>
-      <Bottom setVisible={setVisible}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
+      <Bottom setS={setSgrid} setC={setCgrid} setL={setLgrid}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
 
       </div>
        
