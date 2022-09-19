@@ -18,7 +18,7 @@ var poolInfo={Address:null,
 var tokenAD;
 var USDAddress;
 var chartData=[];
-var chart, lineSeries;
+var chart, lineSeries, mChart, mSeries;
 const connectToWeb3 = async ()=>{
 
     await window.ethereum.request({method:"eth_requestAccounts"});
@@ -196,9 +196,12 @@ const buildChart=async()=>{
     await get1mChartData()
     if(document.getElementsByClassName('tv-lightweight-charts').length<=0){
     chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
-    lineSeries = chart.addCandlestickSeries();}
+    lineSeries = chart.addCandlestickSeries();
+    mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
+    mSeries = mChart.addCandlestickSeries();
+}
     lineSeries.setData(chartData);
- 
+    mSeries.setData(chartData);
 }
 
 window.ethereum.on("accountsChanged",async (acc)=>{
@@ -207,13 +210,21 @@ window.ethereum.on("accountsChanged",async (acc)=>{
   })
 window.addEventListener('resize',()=>{
     document.getElementsByClassName('tv-lightweight-charts')[0].remove();
+    document.getElementsByClassName('tv-lightweight-charts')[0].remove();
     chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
     lineSeries = chart.addCandlestickSeries();
+    lineSeries.setData(chartData);
+    mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
+    mSeries = mChart.addCandlestickSeries();
+    mSeries.setData(chartData);
 })
 
 window.addEventListener("load",()=>{
     chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
     lineSeries = chart.addCandlestickSeries();
+    mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
+    mSeries = mChart.addCandlestickSeries();
+    
 })
 export {connectToWeb3,getConnectedAccount,getFactoryContract, getFactory, getPool,getPoolInfo,approveTX
 ,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval,chartData,get1mChartData,buildChart};
