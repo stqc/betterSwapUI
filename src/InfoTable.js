@@ -39,25 +39,35 @@ export default function DenseTable(props) {
   return (
 
 
-    <TableContainer component={Paper}>
-      <Table sx={{ maxWidth: "100%" }} size="small" aria-label="Token-Information" id="Token-Information">
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 },
-              }}
-            >
-              <TableCell component="th" scope="row" sx={{color:"#816797", fontWeight:"bold", borderBottom:"black"}}>
-                {row.name}
-              </TableCell>
-              <TableCell align="right" sx={{color:"#816797", wordBreak:"break-word", fontWeight:"bold",  borderBottom:"black"}} >{row.calories}</TableCell>
+    // <TableContainer component={Paper}>
+    //   <Table sx={{ maxWidth: "100%" }} size="small" aria-label="Token-Information" id="Token-Information">
+    //     <TableBody>
+    //       {rows.map((row) => (
+    //         <TableRow
+    //           key={row.name}
+    //           sx={{ '&:last-child td, &:last-child th': { border: 0 },
+    //           }}
+    //         >
+    //           <TableCell component="th" scope="row" sx={{color:"white", fontWeight:"bold", borderBottom:"black"}}>
+    //             {row.name}
+    //           </TableCell>
+    //           <TableCell align="right" sx={{color:"white", wordBreak:"break-word", fontWeight:"bold",  borderBottom:"black"}} >{row.calories}</TableCell>
               
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    //         </TableRow>
+    //       ))}
+    //     </TableBody>
+    //   </Table>
+    // </TableContainer>
+
+    
+    <div className='info' style={{display:"grid",gridTemplateColumns:"1fr 1fr", color:"white", overflow:"hidden", height:"fit-content"}}>
+      {rows.map((row)=>(
+        <>
+          <div className='info-h'  style={{margin:"2%"}} key={row.name}>{row.name}</div>
+          <div className='info-a' style={{margin:"2%"}} key={row.name}>{row.calories}</div>
+        </>
+      ))}
+    </div>
 
   );
 }

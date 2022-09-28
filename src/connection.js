@@ -193,9 +193,11 @@ const requestLiquidityRemoval= async()=>{
 }
 
 const buildChart=async()=>{
-    await get1mChartData()
+    if(chartData.length<=0){
+        await get1mChartData()
+}
     if(document.getElementsByClassName('tv-lightweight-charts').length<=0){
-    chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
+    chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight+50});
     lineSeries = chart.addCandlestickSeries();
     mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
     mSeries = mChart.addCandlestickSeries();
@@ -203,7 +205,15 @@ const buildChart=async()=>{
     lineSeries.setData(chartData);
     mSeries.setData(chartData);
 }
-
+const buildChartM=async()=>{
+    if(chartData.length<=0){
+        await get1mChartData()
+}
+    document.getElementById('chrt-m').innerHTML="";
+    mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
+    mSeries = mChart.addCandlestickSeries();
+    mSeries.setData(chartData);
+}
 window.ethereum.on("accountsChanged",async (acc)=>{
     connectedAccount = acc;
     console.log(connectedAccount);
@@ -227,4 +237,4 @@ window.addEventListener("load",()=>{
     
 })
 export {connectToWeb3,getConnectedAccount,getFactoryContract, getFactory, getPool,getPoolInfo,approveTX
-,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval,chartData,get1mChartData,buildChart};
+,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval,chartData,get1mChartData,buildChart,buildChartM};

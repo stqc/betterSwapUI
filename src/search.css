@@ -1,22 +1,19 @@
 .token-search{
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     width: 100%;
     grid-gap: 1%;
-    background-color: black;
+    background-color: white;
     border-radius: 15px;
-    padding: 2%;
     margin-bottom: 1%;
+    padding: 2%;
 }
 
 .MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPink.css-1emxr5e-MuiFormLabel-root-MuiInputLabel-root{
-color:#816797;
+color:#000000;
 }
 
 #search-btn{
-    background: rgb(0,93,120);
-    background: -moz-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
-    background: -webkit-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
-    background: linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005d78",endColorstr="#a2f7ff",GradientType=1);
+    background: linear-gradient(180deg, rgba(28, 29, 35, 0.8) 0%, #1C1D23 100%);
+    backdrop-filter: blur(8px);
 }

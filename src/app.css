@@ -15,6 +15,30 @@
     grid-template-columns: 2fr 1fr;
     grid-gap: 1%
 }
+.chart-main{
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+}
+.time-Selector{
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    background-color: white;
+    border-radius: 20px;
+    justify-content: space-around;
+}
+.time-Selector>p,.time-Selector-m>p{
+    cursor: pointer;
+}
+.time-Selector-m{
+    display: flex;
+    flex-direction: row;
+    padding: 2%;
+    background-color: white;
+    border-radius: 20px;
+    justify-content: space-around;
+}
 .chart{
     background-color: black;
     border-radius: 20px;

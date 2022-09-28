@@ -15,8 +15,8 @@ const theme = createTheme({
   },
   palette: {
     pink: {
-      main: '#816797',
-      darker: '#8167973d',
+      main: 'white',
+      darker: 'white',
     }
    
 }}
@@ -38,13 +38,12 @@ export default function Swap(props){
             </div>
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
-                    <DenseTable style={{backgroundColor:"#8167973d"}} poolInfo={props.pooli}/>
-                    <TextField id="filled-basic" color={"pink"}label={labelContent} variant="filled" inputRef={amountRef}/>
-
-                    {(selected=='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{approveTX(USDAddress,amountRef.current.value)}} >Approve</Button>)}
-                    {(selected=='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{buyToken(amountRef.current.value)}}>{selected}</Button>)}
-                    {(selected!='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{approveTX(tokenAD,amountRef.current.value)}} >Approve</Button>)}
-                    {(selected!='Buy Token' && <Button variant="contained" id="execute" onClick={()=>{sellToken(amountRef.current.value)}}>{selected}</Button>)}
+                    <DenseTable style={{backgroundColor:"transparent"}} poolInfo={props.pooli}/>
+                    <input type="number" placeholder={labelContent} ref={amountRef} style={{color:"white", background:"transparent", border:"1px solid white"}}/>
+                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={()=>{approveTX(USDAddress,amountRef.current.value)}} >Approve</button>)}
+                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={()=>{buyToken(amountRef.current.value)}}>{selected}</button>)}
+                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={()=>{approveTX(tokenAD,amountRef.current.value)}} >Approve</button>)}
+                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={()=>{sellToken(amountRef.current.value)}}>{selected}</button>)}
                 </div>
             </ThemeProvider>
         </div>

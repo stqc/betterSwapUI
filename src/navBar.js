@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import './navBar.css';
+import betterS from './Xgczj6_2_.svg';
+
 import { connectToWeb3, getConnectedAccount,connectedAccount } from './connection.js';
 
 
@@ -48,10 +50,11 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static" style={{backgroundColor:"black"}}>
+    <AppBar position="static" style={{backgroundColor:"transparent"}}>
+      
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, backgroundColor:"black" }} />
+        <img src={betterS} style={{width:"3%"}} id="pc-logo"/>
           <Typography
             variant="h6"
             noWrap
@@ -60,10 +63,10 @@ const ResponsiveAppBar = () => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              fontFamily: 'Merriweather Sans',
+              fontWeight: 500,
+              letterSpacing: '.1rem',
+              color: 'black',
               textDecoration: 'none',
             }}
           >
@@ -81,6 +84,7 @@ const ResponsiveAppBar = () => {
             >
               <MenuIcon />
             </IconButton>
+            
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -107,7 +111,7 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <img src={betterS} style={{width:"8%"}} id="m-logo"/>
           <Typography
             variant="h5"
             noWrap
@@ -117,10 +121,10 @@ const ResponsiveAppBar = () => {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              fontFamily: 'Merriweather Sans',
+              fontWeight: 500,
+              letterSpacing: '.1rem',
+              color: 'black',
               textDecoration: 'none',
             }}
           >

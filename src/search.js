@@ -13,8 +13,8 @@ const theme = createTheme({
     },
     palette: {
       pink: {
-        main: '#816797',
-        darker: '#8167973d',
+        main: 'black',
+        darker: 'black',
       }
      
   }}
@@ -26,7 +26,7 @@ function SearchToken(props){
     return(
         <div className="token-search">
             <ThemeProvider theme={theme}>
-                <TextField label="Enter Token address" variant="filled" color="pink" inputRef={newRef}/>
+                <input type="text" placeholder="Enter Token Address" style={{width:"100%", border:"1px solid #EEEFF2",  padding:"1%", backgroundColor:"#EEEFF2"} }ref={newRef}></input>
 
                 <Button variant="contained" id="search-btn"
                 onClick={

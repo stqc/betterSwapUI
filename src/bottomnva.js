@@ -8,7 +8,7 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import HistoryIcon from '@mui/icons-material/History';
 import PaidIcon from '@mui/icons-material/Paid';
 import './bottom.css';
-
+import { buildChartM } from './connection';
 function FixedBottomNavigation(props) {
   const [value, setValue] = React.useState(0);
   const ref = React.useRef(null);
@@ -29,10 +29,8 @@ function FixedBottomNavigation(props) {
           }}
           style={{ backgroundColor:"black"}}
         >
-          <BottomNavigationAction label="Swap" icon={<SwapHorizIcon />} onClick={()=>{props.setVisible("Swap"); }}/>
-          <BottomNavigationAction label="Liquidity" icon={<PaidIcon />} onClick={()=>{props.setVisible("Liquidity"); }}/>
-          <BottomNavigationAction label="Charts" icon={<BarChartIcon />} onClick={()=>{props.setVisible("Charts"); }}/>
-          <BottomNavigationAction label="History" icon={<HistoryIcon />} onClick={()=>{props.setVisible("History"); }}/>
+          <BottomNavigationAction label="Swap" icon={<SwapHorizIcon />} onClick={()=>{props.setS("grid");  props.setC('none'); buildChartM(); }}/>
+          <BottomNavigationAction label="Charts" icon={<BarChartIcon />} onClick={async ()=>{props.setS("none"); props.setC('grid'); await buildChartM(); buildChartM();}}/>
         </BottomNavigation>
       </Paper>
     </Box>

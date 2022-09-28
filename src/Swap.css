@@ -1,9 +1,11 @@
 .swap-content{
     display: grid;
     grid-template-columns: 1fr;
-    background-color: black;
-    
-    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(28, 29, 35, 0.8) 0%, #1C1D23 100%);
+backdrop-filter: blur(8px);
+/* Note: backdrop-filter has minimal browser support */
+
+border-radius: 16px;
     padding: 5%;
 }
 
@@ -22,24 +24,29 @@
 
 }
 #execute{
-    background: rgb(0,93,120);
-background: -moz-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
-background: -webkit-linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
-background: linear-gradient(140deg, rgba(0,93,120,1) 6%, rgba(42,163,172,1) 68%, rgba(162,247,255,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005d78",endColorstr="#a2f7ff",GradientType=1);
-margin: 5%
+   background-color: transparent;
+   border-radius: 16px;
+   border-color: white;
+margin: 5%;
+padding: 2%;
+color: white;
 }
 
 .MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-e4w4as-MuiFormLabel-root-MuiInputLabel-root{
-    color: #816797;
+    color: white
 
+}
+table{
+    background: linear-gradient(180deg, rgba(28, 29, 35, 0.8) 0%, #1C1D23 100%);
+    backdrop-filter: blur(8px);
 }
 th,td{
     word-wrap: break-word;
 }
 #Token-Information{
-    background-color: black;
-    color: #816797;
+    background: linear-gradient(180deg, rgba(28, 29, 35, 0.8) 0%, #1C1D23 100%);
+    backdrop-filter: blur(8px);;
+    color: white;
 }
 
 #Token-information>td{
@@ -48,14 +55,14 @@ th,td{
 
 .MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
     
-    background-color: #8167973d;
+    background-color: transparent;
     
 }
 .MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-shrink.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPrimary.MuiFormLabel-filled.css-o943dk-MuiFormLabel-root-MuiInputLabel-root{
-    color: #816797;
+    color: white;
 }
 #filled-basic-label{
-    color: #816797;
+    color: #ffffff;
 }
 .MuiFilledInput-input.MuiInputBase-input.css-10botns-MuiInputBase-input-MuiFilledInput-input{
     color:white;
