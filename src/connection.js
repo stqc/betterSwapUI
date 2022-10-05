@@ -19,6 +19,7 @@ var tokenAD;
 var USDAddress;
 var chartData=[];
 var chart, lineSeries, mChart, mSeries;
+var frame ="D";
 const connectToWeb3 = async ()=>{
 
     await window.ethereum.request({method:"eth_requestAccounts"});
@@ -139,7 +140,7 @@ const addLiquidity= async(USD,Token)=>{
     }
 }
 const get1hChartData = async()=>{
-    
+    chartData=[];
     try{
         let data= await pool.methods.showTradeData(60).call();
         for(let i =1; i<data.length; i++){
@@ -148,9 +149,9 @@ const get1hChartData = async()=>{
         console.log(chartData)
     }
     catch(e){
-        alert(e.message);
+        console.log(e.message);
     }
-    chartData=[];
+    
 }
 const get1mChartData = async()=>{
     chartData=[];
@@ -162,7 +163,7 @@ const get1mChartData = async()=>{
         console.log(chartData)
     }
     catch(e){
-        alert(e.message);
+        console.log(e.message);
     }
 }
 const get1dChartData = async()=>{
@@ -175,7 +176,7 @@ const get1dChartData = async()=>{
         console.log(chartData)
     }
     catch(e){
-        alert(e.message);
+        console.log(e.message);
     }
 
 }
@@ -193,9 +194,17 @@ const requestLiquidityRemoval= async()=>{
 }
 
 const buildChart=async()=>{
-    if(chartData.length<=0){
-        await get1mChartData()
-}
+    
+        if(frame=='M'){
+            await get1mChartData()
+        }
+        if(frame=="H"){
+            await get1hChartData()
+        }
+        if(frame=="D"){
+            await get1dChartData()
+        }
+
     if(document.getElementsByClassName('tv-lightweight-charts').length<=0){
     chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight+50});
     lineSeries = chart.addCandlestickSeries();
@@ -206,14 +215,37 @@ const buildChart=async()=>{
     mSeries.setData(chartData);
 }
 const buildChartM=async()=>{
-    if(chartData.length<=0){
-        await get1mChartData()
-}
+    
+        if(frame=='M'){
+            await get1mChartData()
+        }
+        if(frame=="H"){
+            await get1hChartData()
+        }
+        if(frame=="D"){
+            await get1dChartData()
+        }
+
+    console.log(chartData, frame);
     document.getElementById('chrt-m').innerHTML="";
     mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
     mSeries = mChart.addCandlestickSeries();
     mSeries.setData(chartData);
 }
+
+const changeFrame = (fr)=>{
+    console.log(fr)
+    frame=fr
+    buildChart();
+}
+
+const changeFrameM = (fr)=>{
+    console.log(fr)
+    frame=fr;
+    buildChartM();
+}
+
+
 window.ethereum.on("accountsChanged",async (acc)=>{
     connectedAccount = acc;
     console.log(connectedAccount);
@@ -237,4 +269,4 @@ window.addEventListener("load",()=>{
     
 })
 export {connectToWeb3,getConnectedAccount,getFactoryContract, getFactory, getPool,getPoolInfo,approveTX
-,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval,chartData,get1mChartData,buildChart,buildChartM};
+,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval,chartData,get1mChartData,buildChart,buildChartM,changeFrame,changeFrameM};
