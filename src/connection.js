@@ -3,7 +3,7 @@ import {bep20ABI} from "./abi.js";
 import { factoryABI } from "./abi.js";
 import { poolABI } from "./abi.js";
 import { createChart } from "lightweight-charts"
-
+// updates
 var web3;
 var connectedAccount = null;
 var factory;
