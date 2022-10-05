@@ -19,7 +19,7 @@ function FixedBottomNavigation(props) {
 
   return (
     <Box sx={{ pb: 7 }} ref={ref}>
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 ,}} elevation={3}>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , zIndex:3}} elevation={3}>
         <BottomNavigation
           showLabels
           value={value}
@@ -27,7 +27,7 @@ function FixedBottomNavigation(props) {
             setValue(newValue);
             console.log(value);
           }}
-          style={{ backgroundColor:"black"}}
+          style={{ backgroundColor:"#E5E5E5"}}
         >
           <BottomNavigationAction label="Swap" icon={<SwapHorizIcon />} onClick={()=>{props.setS("grid");  props.setC('none'); buildChartM(); }}/>
           <BottomNavigationAction label="Charts" icon={<BarChartIcon />} onClick={async ()=>{props.setS("none"); props.setC('grid'); await buildChartM(); buildChartM();}}/>

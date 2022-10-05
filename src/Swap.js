@@ -39,7 +39,7 @@ export default function Swap(props){
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
                     <DenseTable style={{backgroundColor:"transparent"}} poolInfo={props.pooli}/>
-                    <input type="number" placeholder={labelContent} ref={amountRef} style={{color:"white", background:"transparent", border:"1px solid white"}}/>
+                    <input type="number" min={0} placeholder={labelContent} ref={amountRef} style={{color:"white", background:"transparent", border:"1px solid white", borderRadius:"16px", padding:"1%", marginTop:"4%"}}/>
                     {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={()=>{approveTX(USDAddress,amountRef.current.value)}} >Approve</button>)}
                     {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={()=>{buyToken(amountRef.current.value)}}>{selected}</button>)}
                     {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={()=>{approveTX(tokenAD,amountRef.current.value)}} >Approve</button>)}
