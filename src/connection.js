@@ -3,6 +3,7 @@ import {bep20ABI} from "./abi.js";
 import { factoryABI } from "./abi.js";
 import { poolABI } from "./abi.js";
 import { createChart } from "lightweight-charts"
+
 // updates
 var web3;
 var connectedAccount = null;
@@ -15,17 +16,41 @@ var poolInfo={Address:null,
     saleTax: null,
     name:null,
     supply:null};
-var tokenAD;
+var tokenAD=null;
 var USDAddress;
 var chartData=[];
 var chart, lineSeries, mChart, mSeries;
 var frame ="D";
+var USDBale=0;
+var tokenBale=0;
+var dollar;
+export var zzz=10;
 const connectToWeb3 = async ()=>{
 
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccount = await web3.eth.getAccounts();
-    alert("successfully connected to "+connectedAccount[0])
+    dollar = await new web3.eth.Contract(bep20ABI,USDAddress);
+    await updateBalances();
+}
+export const getbal=()=>{
 
+ return USDBale;
+}
+
+export const getTokenBal=()=>{
+    return tokenBale;
+}
+
+const updateBalances =async ()=>{
+    connectedAccount!=null?
+         USDBale = (await dollar.methods.balanceOf(connectedAccount[0]).call()/1e18).toLocaleString()
+    :0
+    if(connectedAccount!=null){
+        if(tokenAD!=null){
+            var bep20 = new web3.eth.Contract(bep20ABI,tokenAD);
+            tokenBale = (await bep20.methods.balanceOf(connectedAccount[0]).call()/1e18).toLocaleString()
+        }
+    }
 }
 const getFactoryContract = async ()=>{
     web3 = new Web3(window.ethereum);
@@ -49,6 +74,9 @@ const getPool = async (tokenAddress)=>{
     pool = await new web3.eth.Contract(poolABI,poolAddress);
     var bep20 = await new web3.eth.Contract(bep20ABI,tokenAddress);
     console.log(pool._address,tokenAD);
+
+    await updateBalances();
+    connectedAccount!=null?tokenBale = (await bep20.methods.balanceOf(connectedAccount[0]).call()/1e18).toLocaleString():0
     var sup = await bep20.methods.totalSupply().call()/1e18
             try{
             poolInfo ={
@@ -60,6 +88,10 @@ const getPool = async (tokenAddress)=>{
                 name: await bep20.methods.name().call(),
                 supply: sup.toLocaleString(),
             }
+            
+            
+                
+    
         }
         catch (e){
             poolInfo ={
@@ -78,6 +110,7 @@ const getPool = async (tokenAddress)=>{
     catch(e){
         alert(e.message);
     }
+    
 }
 
 const getPoolInfo = ()=>{
@@ -205,12 +238,12 @@ const buildChart=async()=>{
             await get1dChartData()
         }
 
-    if(document.getElementsByClassName('tv-lightweight-charts').length<=0){
-    chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight+50});
+   
+    document.getElementById('chrt').innerHTML="";
+    chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
     lineSeries = chart.addCandlestickSeries();
     mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
     mSeries = mChart.addCandlestickSeries();
-}
     lineSeries.setData(chartData);
     mSeries.setData(chartData);
 }
@@ -253,6 +286,8 @@ window.ethereum.on("accountsChanged",async (acc)=>{
 window.addEventListener('resize',()=>{
     document.getElementsByClassName('tv-lightweight-charts')[0].remove();
     document.getElementsByClassName('tv-lightweight-charts')[0].remove();
+    document.getElementById('chrt-m').innerHTML="";
+    document.getElementById('chrt').innerHTML="";
     chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
     lineSeries = chart.addCandlestickSeries();
     lineSeries.setData(chartData);
@@ -268,5 +303,8 @@ window.addEventListener("load",()=>{
     mSeries = mChart.addCandlestickSeries();
     
 })
-export {connectToWeb3,getConnectedAccount,getFactoryContract, getFactory, getPool,getPoolInfo,approveTX
-,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,addLiquidity,requestLiquidityRemoval,chartData,get1mChartData,buildChart,buildChartM,changeFrame,changeFrameM};
+export {connectToWeb3,getConnectedAccount,getFactoryContract, 
+    getFactory, getPool,getPoolInfo,approveTX
+,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,
+addLiquidity,requestLiquidityRemoval,chartData,get1mChartData
+,buildChart,buildChartM,changeFrame,changeFrameM, USDBale, tokenBale};

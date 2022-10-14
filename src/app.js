@@ -4,11 +4,9 @@ import Bottom from "./bottomnva";
 import './app.css';
 import { useMediaQuery } from "@mui/material";
 import Swap from './Swap';
-import History from './History';
 import {SearchToken} from './search';
 import Liquidity from "./liquidity";
-import {getFactoryContract, getFactory,getPoolInfo} from "./connection.js";
-import { SettingsCellRounded } from "@mui/icons-material";
+import {getFactoryContract,getPoolInfo} from "./connection.js";
 import swapLogo from './Xgczj6_2_.svg';
 import { changeFrame,changeFrameM } from "./connection.js";
 const App = () => {
@@ -19,6 +17,10 @@ const App = () => {
  const[Sgrid,setSgrid] = useState("grid");
  const[Cgrid,setCgrid] =useState('none');
  const[Lgrid,setLgrid] =useState('none');
+ const[clsName,changeClassName] = useState('unselected');
+ const[clsNameH,changeClassNameH] = useState('unselected');
+ const[clsNameD,changeClassNameD] = useState('selected');
+ const[c,cc]=useState(false);
   useEffect(async()=>{
       await getFactoryContract();
 
@@ -32,19 +34,24 @@ const App = () => {
     async function updatepoolInfo(){
       await updatePool(getPoolInfo());
     }
+    async function cf (){
+      cc(true);
+    }
   return (
     <>
     
-      <Navbar />
+      <Navbar ccc={cf}/>
       <div id="web3-found">
-
+        <div className="Alert">
+          connected successfully
+        </div>
       <div className="main-content">
         <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}}/>
         <div style={{display:Sgrid}}><Swap pooli ={pool}/></div>
         <div className="chart-main"  style={{display:Cgrid}}>
           <div className="chart" id="chrt-m" style={{display:Cgrid}}> </div>
           <div className="time-Selector-m">
-          <div onClick={()=>{changeFrameM("M")}}>1M</div><div onClick={()=>{changeFrameM("H")}}>1H</div><div onClick={()=>{changeFrameM("D")}}>1D</div>
+          <div className={clsName} onClick={()=>{changeFrameM("M"); changeClassName('selected');changeClassNameH('unselected');changeClassNameD('unselected')}}>1M</div><div className={clsNameH} onClick={()=>{changeFrameM("H");changeClassName('unselected');changeClassNameH('selected');changeClassNameD('unselected')}}>1H</div><div className={clsNameD} onClick={()=>{changeFrameM("D");  changeClassName('unselected');changeClassNameH('unselected');changeClassNameD('selected')}}>1D</div>
           </div>
         </div>
           <div  style={{display:Lgrid}}><Liquidity/></div>
@@ -58,7 +65,7 @@ const App = () => {
               
             </div>
             <div className="time-Selector">
-            <div onClick={()=>{changeFrame("M")}}>1M</div><div onClick={()=>{changeFrame("H")}}>1H</div><div onClick={()=>{changeFrame("D")}}>1D</div>
+            <div className={clsName} onClick={()=>{changeFrame("M");  changeClassName('selected');changeClassNameH('unselected');changeClassNameD('unselected')}}>1M</div><div className={clsNameH} onClick={()=>{changeFrame("H");changeClassName('unselected');changeClassNameH('selected');changeClassNameD('unselected')}}>1H</div><div className={clsNameD} onClick={()=>{changeFrame("D");  changeClassName('unselected');changeClassNameH('unselected');changeClassNameD('selected')}}>1D</div>
             </div>
           </div>
           <Swap pooli ={pool}/>
@@ -67,11 +74,17 @@ const App = () => {
       <Bottom setS={setSgrid} setC={setCgrid} setL={setLgrid}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
 
       </div>
-      {/* <img src={swapLogo} id="backdrop-logo" alt="Logo" style={{position:"absolute", width:"30%", zIndex:"-2", bottom:0, left:"-5%"}}/> */}
-       <div className="footer" style={{bottom:"0" , width:"100%",position:"relative", marginTop:"20px", padding:"2% 2% 0% 2%"}}>
+       <div className="footer" style={{bottom:"0" , width:"100%",position:"relative", marginTop:"20px", padding:"3% 2% 0% 2%"}}>
          <div className="footer-content" style={{display:"grid", height:"100%", gridTemplateColumns:"1fr 1fr", backgroundColor:"#F7F7F8", borderTopLeftRadius:"16px", borderTopRightRadius:"16px", padding:"2%"}}>
-            <p>BetterSwap</p>
-            <p>This is the best swap to have ever existed guys</p>
+            <div style={{display:"flex", alignItems:"flex-start"}}><img src={swapLogo} style={{width:"50px"}}/><p style={{marginTop:"revert", marginRight:"1%"}}>BetterSwap</p></div>
+            <div style={{display:"flex", flexDirection:"column"}}>
+              <p>Socials</p>
+              <div style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
+                <p>Docs</p>
+                <p>Twitter</p>
+                <p>Discord</p>
+              </div>
+            </div>
 
           </div>
         

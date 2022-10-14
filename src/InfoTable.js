@@ -1,10 +1,4 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { getPoolInfo } from './connection.js';
 
 function createData(name, calories, fat, carbs, protein) {
@@ -37,28 +31,6 @@ export default function DenseTable(props) {
     createData('Sell Tax',data.saleTax)
   ]);
   return (
-
-
-    // <TableContainer component={Paper}>
-    //   <Table sx={{ maxWidth: "100%" }} size="small" aria-label="Token-Information" id="Token-Information">
-    //     <TableBody>
-    //       {rows.map((row) => (
-    //         <TableRow
-    //           key={row.name}
-    //           sx={{ '&:last-child td, &:last-child th': { border: 0 },
-    //           }}
-    //         >
-    //           <TableCell component="th" scope="row" sx={{color:"white", fontWeight:"bold", borderBottom:"black"}}>
-    //             {row.name}
-    //           </TableCell>
-    //           <TableCell align="right" sx={{color:"white", wordBreak:"break-word", fontWeight:"bold",  borderBottom:"black"}} >{row.calories}</TableCell>
-              
-    //         </TableRow>
-    //       ))}
-    //     </TableBody>
-    //   </Table>
-    // </TableContainer>
-
     
     <div className='info' style={{display:"grid",gridTemplateColumns:"1fr 1fr", color:"white", overflow:"hidden", height:"fit-content"}}>
       {rows.map((row)=>(

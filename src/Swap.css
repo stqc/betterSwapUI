@@ -67,3 +67,16 @@ th,td{
 .MuiFilledInput-input.MuiInputBase-input.css-10botns-MuiInputBase-input-MuiFilledInput-input{
     color:white;
 }
+
+.inp{
+ 
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 2px solid white;
+    padding: 2% 1% 0% 2%;
+    border-radius: 10px;
+    margin-top:5%;
+    color: white
+
+}

@@ -9,7 +9,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import './navBar.css';
 import betterS from './Xgczj6_2_.svg';
 
@@ -18,10 +17,12 @@ import { connectToWeb3, getConnectedAccount,connectedAccount } from './connectio
 
 
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
  const [acc,changeAcc] = React.useState('Connect')
-  const pages = ['Trade', 'Launchpad', 'Create a token', <Button id ="con-btn"variant="outlined"  onClick={async ()=>{
+  const pages = ['Trade','Create Token', "Manage Token",<Button id ="con-btn"variant="outlined"  onClick={async ()=>{
     await connectToWeb3();
+    await changeAcc(connectedAccount[0].slice(0,8)+"...")
+    await props.ccc(true);
   }}style={{color:"#d19b00",
   borderColor:"#d19b00"}}>{acc}</Button>];
   React.useEffect(()=>{

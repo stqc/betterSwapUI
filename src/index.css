@@ -29,9 +29,7 @@ height: fit-content;
   }
 
   @media  screen and (max-width:900px) {
-      body{
-          height: 180vh;
-      }
+      
       #pc-logo{
         display: none;
       }
