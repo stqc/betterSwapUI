@@ -8,7 +8,7 @@ import { createChart } from "lightweight-charts"
 var web3;
 var connectedAccount = null;
 var factory;
-var pool;
+export var pool=null;
 var poolInfo={Address:null,
     token2USD: null,
     USD2token: null,
@@ -24,7 +24,7 @@ var frame ="D";
 var USDBale=0;
 var tokenBale=0;
 var dollar;
-export var zzz=10;
+var prev;
 const connectToWeb3 = async ()=>{
 
     await window.ethereum.request({method:"eth_requestAccounts"});
@@ -43,18 +43,18 @@ export const getTokenBal=()=>{
 
 const updateBalances =async ()=>{
     connectedAccount!=null?
-         USDBale = (await dollar.methods.balanceOf(connectedAccount[0]).call()/1e18).toLocaleString()
+         USDBale = ((await dollar.methods.balanceOf(connectedAccount[0]).call())/1e18).toLocaleString()
     :0
     if(connectedAccount!=null){
         if(tokenAD!=null){
             var bep20 = new web3.eth.Contract(bep20ABI,tokenAD);
-            tokenBale = (await bep20.methods.balanceOf(connectedAccount[0]).call()/1e18).toLocaleString()
+            tokenBale = ((await bep20.methods.balanceOf(connectedAccount[0]).call())/1e18).toLocaleString()
         }
     }
 }
 const getFactoryContract = async ()=>{
     web3 = new Web3(window.ethereum);
-    factory = await new web3.eth.Contract(factoryABI,"0x2472fB9b1D80B9663a9A80920e6e3297Ae86e839");
+    factory = await new web3.eth.Contract(factoryABI,"0x7A0f8DBe8bee960572A05a363e75E5907B0ceAAe");
     USDAddress = await factory.methods.usd().call();
 }
 
@@ -66,15 +66,17 @@ const getFactory =  ()=>{
     return factory;
 }
 
+
 const getPool = async (tokenAddress)=>{
     try{
+        
     tokenAD = tokenAddress;
     
     var poolAddress = await factory.methods.TokenToPool(tokenAddress).call();
-    pool = await new web3.eth.Contract(poolABI,poolAddress);
+    pool===null?pool = await new web3.eth.Contract(poolABI,poolAddress):pool;
     var bep20 = await new web3.eth.Contract(bep20ABI,tokenAddress);
     console.log(pool._address,tokenAD);
-
+       
     await updateBalances();
     connectedAccount!=null?tokenBale = (await bep20.methods.balanceOf(connectedAccount[0]).call()/1e18).toLocaleString():0
     var sup = await bep20.methods.totalSupply().call()/1e18
@@ -122,10 +124,10 @@ const approveTX = async(tokenToApprove,amount)=>{
      try{
          var tokenContract = await new web3.eth.Contract(bep20ABI,tokenToApprove);
          var tx= await tokenContract.methods.approve(pool._address,amount).send({from:connectedAccount[0]});
-         alert(tx.blockHash);
+         return [tx.blockHash];
      }
      catch(e){
-         alert(e.message);
+         return [e.message,0];
       }
 }
 
@@ -136,12 +138,12 @@ const buyToken =async (USD)=>{
     try{
         
          var tx= await pool.methods.buyToken(USD).send({from:connectedAccount[0]});
-         console.log(tx);
          await getPool(tokenAD);
-         alert(tx.blockHash);
+
+         return [tx.blockHash];
     }
     catch(e){
-        alert(e.message);
+         return [e.message,0];
      }
 }
 const sellToken =async (USD)=>{
@@ -153,10 +155,10 @@ const sellToken =async (USD)=>{
          var tx= await pool.methods.sellToken(USD).send({from:connectedAccount[0]});
          console.log(tx);
          await getPool(tokenAD);
-         alert(tx.blockHash);
+         return [tx.blockHash];
     }
     catch(e){
-        alert(e.message);
+        return [e.message,0];
      }
 }
 
@@ -166,10 +168,10 @@ const addLiquidity= async(USD,Token)=>{
     try{
         var tx = await pool.methods.addLiquidity(Token,USD).send({from:connectedAccount[0]});
         console.log(tx);
-        alert(tx.blockHash);
+        return tx.blockHash;
     }
     catch(e){
-        alert(e.message);
+        return e.message;
     }
 }
 const get1hChartData = async()=>{
@@ -179,7 +181,7 @@ const get1hChartData = async()=>{
         for(let i =1; i<data.length; i++){
             chartData.push({time:Number(data[i].time),open:data[i].Open/1e18,low: data[i].Low/1e18,high:data[i].High/1e18,close:data[i].Close/1e18})
         }
-        console.log(chartData)
+
     }
     catch(e){
         console.log(e.message);
@@ -193,7 +195,7 @@ const get1mChartData = async()=>{
         for(let i =1; i<data.length; i++){
             chartData.push({time:Number(data[i].time),open:data[i].Open/1e18,low: data[i].Low/1e18,high:data[i].High/1e18,close:data[i].Close/1e18})
         }
-        console.log(chartData)
+
     }
     catch(e){
         console.log(e.message);
@@ -206,7 +208,7 @@ const get1dChartData = async()=>{
         for(let i =1; i<data.length; i++){
             chartData.push({time:Number(data[i].time),open:data[i].Open/1e18,low: data[i].Low/1e18,high:data[i].High/1e18,close:data[i].Close/1e18})
         }
-        console.log(chartData)
+
     }
     catch(e){
         console.log(e.message);
@@ -219,10 +221,10 @@ const requestLiquidityRemoval= async()=>{
     try{
         var tx = await pool.methods.approveEmergencyWithdraw().send({from:connectedAccount[0]});
         console.log(tx);
-        alert(tx.blockHash);
+        return tx.blockHash;
     }
     catch(e){
-        alert(e.message);
+        return e.message;
     }
 }
 
@@ -259,7 +261,7 @@ const buildChartM=async()=>{
             await get1dChartData()
         }
 
-    console.log(chartData, frame);
+    
     document.getElementById('chrt-m').innerHTML="";
     mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
     mSeries = mChart.addCandlestickSeries();
@@ -303,6 +305,27 @@ window.addEventListener("load",()=>{
     mSeries = mChart.addCandlestickSeries();
     
 })
+
+window.setInterval(async ()=>{
+
+    if(pool!=null){
+        if(prev && prev._address!=pool._address){
+            prev=pool;
+            await (chartData=[])
+            await buildChart();
+            await buildChartM();
+        
+        }else{
+            prev=pool;
+            await (chartData=[]);
+            await buildChart();
+            await buildChartM();
+        }
+    }else{
+        console.log("pool is null");
+    }
+},1000);
+
 export {connectToWeb3,getConnectedAccount,getFactoryContract, 
     getFactory, getPool,getPoolInfo,approveTX
 ,USDAddress,tokenAD,buyToken,sellToken,connectedAccount,

@@ -21,6 +21,9 @@ const App = () => {
  const[clsNameH,changeClassNameH] = useState('unselected');
  const[clsNameD,changeClassNameD] = useState('selected');
  const[c,cc]=useState(false);
+ const [alertVisible,setAlertVisibility] =useState('Alert');
+ const [alertText, setAlertText] =useState('');
+
   useEffect(async()=>{
       await getFactoryContract();
 
@@ -37,17 +40,27 @@ const App = () => {
     async function cf (){
       cc(true);
     }
+    async function showAlert(text){
+
+      setAlertVisibility('Alert-enable');
+      setAlertText(text);
+      setTimeout(()=>{
+        setAlertVisibility('Alert')
+      },2000);
+
+    }
   return (
     <>
     
-      <Navbar ccc={cf}/>
+      <Navbar ccc={cf} alert={showAlert}/>
       <div id="web3-found">
-        <div className="Alert">
-          connected successfully
+        <div className={alertVisible}>
+          <h4 style={{fontWeight:"bold"}}>ALERT</h4>
+          {alertText}
         </div>
       <div className="main-content">
         <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}}/>
-        <div style={{display:Sgrid}}><Swap pooli ={pool}/></div>
+        <div style={{display:Sgrid}}><Swap pooli ={pool} alerts={showAlert}/></div>
         <div className="chart-main"  style={{display:Cgrid}}>
           <div className="chart" id="chrt-m" style={{display:Cgrid}}> </div>
           <div className="time-Selector-m">
@@ -68,7 +81,7 @@ const App = () => {
             <div className={clsName} onClick={()=>{changeFrame("M");  changeClassName('selected');changeClassNameH('unselected');changeClassNameD('unselected')}}>1M</div><div className={clsNameH} onClick={()=>{changeFrame("H");changeClassName('unselected');changeClassNameH('selected');changeClassNameD('unselected')}}>1H</div><div className={clsNameD} onClick={()=>{changeFrame("D");  changeClassName('unselected');changeClassNameH('unselected');changeClassNameD('selected')}}>1D</div>
             </div>
           </div>
-          <Swap pooli ={pool}/>
+          <Swap pooli ={pool} alerts={showAlert}/>
         </div>
       </div>
       <Bottom setS={setSgrid} setC={setCgrid} setL={setLgrid}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
@@ -76,7 +89,7 @@ const App = () => {
       </div>
        <div className="footer" style={{bottom:"0" , width:"100%",position:"relative", marginTop:"20px", padding:"3% 2% 0% 2%"}}>
          <div className="footer-content" style={{display:"grid", height:"100%", gridTemplateColumns:"1fr 1fr", backgroundColor:"#F7F7F8", borderTopLeftRadius:"16px", borderTopRightRadius:"16px", padding:"2%"}}>
-            <div style={{display:"flex", alignItems:"flex-start"}}><img src={swapLogo} style={{width:"50px"}}/><p style={{marginTop:"revert", marginRight:"1%"}}>BetterSwap</p></div>
+            <div style={{display:"flex", alignItems:"flex-start"}}><img src={swapLogo} style={{width:"50px"}}/><p style={{marginTop:"revert", marginRight:"1%", fontWeight:"500",fontFamily: 'Merriweather Sans'}}>BetterSwap</p></div>
             <div style={{display:"flex", flexDirection:"column"}}>
               <p>Socials</p>
               <div style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>

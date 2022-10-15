@@ -49,10 +49,14 @@ export default function Swap(props){
                         <p style={{fontSize:"small"}}>{bal} Balance: {currentBal}</p>
                     </div>
                     
-                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={()=>{approveTX(USDAddress,amountRef.current.value)}} >Approve</button>)}
-                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={()=>{buyToken(amountRef.current.value)}}>{selected}</button>)}
-                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={()=>{approveTX(tokenAD,amountRef.current.value)}} >Approve</button>)}
-                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={()=>{sellToken(amountRef.current.value)}}>{selected}</button>)}
+                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(USDAddress,amountRef.current.value);
+                                x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}} >Approve</button>)}
+                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await buyToken(amountRef.current.value)
+                    x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}}>{selected}</button>)}
+                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(tokenAD,amountRef.current.value)
+                        x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}} >Approve</button>)}
+                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await sellToken(amountRef.current.value)
+                        x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}}>{selected}</button>)}
                 </div>
             </ThemeProvider>
         </div>

@@ -7,6 +7,8 @@ import "./search.css";
 import { getPool } from "./connection.js";
 import { createRef } from "react";
 import { buildChart } from "./connection.js";
+import {pool} from "./connection.js";
+
 const theme = createTheme({
     status: {
       danger: '#e53e3e',
@@ -22,7 +24,7 @@ const theme = createTheme({
 
 function SearchToken(props){
     var newRef = createRef();
-    const [pool,updatePool] = useState(null);
+    const [pools,updatePool] = useState(null);
     return(
         <div className="token-search">
             <ThemeProvider theme={theme}>
@@ -33,8 +35,8 @@ function SearchToken(props){
                   async()=>{
                     updatePool(await getPool(newRef.current.value));
                     await props.update();
-                    buildChart();
-                    console.log("callewd chrt")
+                    await buildChart();
+                    
                   }
                 }>Search</Button>
           </ThemeProvider>

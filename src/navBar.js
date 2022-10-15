@@ -23,6 +23,7 @@ const ResponsiveAppBar = (props) => {
     await connectToWeb3();
     await changeAcc(connectedAccount[0].slice(0,8)+"...")
     await props.ccc(true);
+    props.alert("Connected To "+connectedAccount[0].slice(0,8)+"...");
   }}style={{color:"#d19b00",
   borderColor:"#d19b00"}}>{acc}</Button>];
   React.useEffect(()=>{
