@@ -16,7 +16,8 @@
 }
 .manage-token{
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns: 1fr;
+    padding: 0% 30% 30% 30%;
 }
 .Alert-enable{
     background-color: white;
