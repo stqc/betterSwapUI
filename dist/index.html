@@ -3,9 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap" rel="stylesheet">
+    <title>BetterSwap</title>
+    <style>
+      
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #424242; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #5d4a6e ;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background:#5d4a6e 
+  }
+
+  @media  screen and (max-width:900px) {
+      body{
+          height: 180vh;
+      }
+      
+  }
+    </style>
   <script defer src="/bundle.js"></script></head>
   <body>
     <div id="root"></div>
+    <div id="web3-notfound" style= "background-color:black; height:fir-content; margin:24% 4% 4% 4%; border-radius:20px; color:white; padding: 5%;">
+      <h2>Browser not supported</h2>
+      <p>We are glad you chose BetterSwap for your DeFi trading needs.</p>
+      <p>But it seems like your browser doesn't support the requirements for BetterSwap.</p>
+      <p>Please try to use a browser from any web3 wallet like Metamask,Trust Wallet, Brave Browser etc...</p>
+
+    </div>
   </body>
+  <script>
+    if(window.ethereum){
+       
+        document.getElementById("web3-notfound").style.display="none";
+    }
+  </script>
 </html>

@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import './navBar.css';
 import betterS from './Xgczj6_2_.svg';
-
+import { buildChart,buildChartM } from './connection.js';
 import { connectToWeb3, getConnectedAccount,connectedAccount } from './connection.js';
 
 
@@ -19,13 +19,13 @@ import { connectToWeb3, getConnectedAccount,connectedAccount } from './connectio
 
 const ResponsiveAppBar = (props) => {
  const [acc,changeAcc] = React.useState('Connect')
-  const pages = ['Trade','Create Token', "Manage Token",<Button id ="con-btn"variant="outlined"  onClick={async ()=>{
+  const pages = ['Trade','Create Token', "Manage Token",(<Button id ="con-btn"variant="outlined"  onClick={async ()=>{
     await connectToWeb3();
     await changeAcc(connectedAccount[0].slice(0,8)+"...")
     await props.ccc(true);
     props.alert("Connected To "+connectedAccount[0].slice(0,8)+"...");
   }}style={{color:"#d19b00",
-  borderColor:"#d19b00"}}>{acc}</Button>];
+  borderColor:"#d19b00"}}>{acc}</Button>)];
   React.useEffect(()=>{
     console.log(connectedAccount)
     if(connectedAccount){
@@ -106,11 +106,26 @@ const ResponsiveAppBar = (props) => {
                 backgroundColor:"grey"
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              
+              <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Trade"); await buildChartM();}}>
+                  <Typography textAlign="center">{"Trade"}</Typography>
                 </MenuItem>
-              ))}
+                <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Create Token"); await buildChartM();}}>
+                  <Typography textAlign="center">{"Create Token"}</Typography>
+                </MenuItem>
+                <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Manage Token"); await buildChartM();}}>
+                  <Typography textAlign="center">{"Manage Token"}</Typography>
+                </MenuItem>
+                <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"} } onClick={handleCloseNavMenu}>
+                <Button id ="con-btn"variant="outlined"  onClick={async ()=>{
+                    await connectToWeb3();
+                    await changeAcc(connectedAccount[0].slice(0,8)+"...")
+                    await props.ccc(true);
+                    props.alert("Connected To "+connectedAccount[0].slice(0,8)+"...");
+                  }}style={{color:"#d19b00",
+                  borderColor:"#d19b00"}}>{acc}
+                </Button>
+                </MenuItem>
             </Menu>
           </Box>
           <img src={betterS} style={{width:"8%"}} id="m-logo"/>
@@ -133,15 +148,23 @@ const ResponsiveAppBar = (props) => {
             BetterSwap
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button style={{color:"black"}} onClick={async ()=>{handleCloseNavMenu(); props.views("Trade");await buildChart();}}>
+              {"Trade"}
+            </Button>
+            <Button style={{color:"black"}}onClick={async ()=>{handleCloseNavMenu(); props.views("Create Token");await buildChart();}}>
+              {"Create Token"}
+            </Button>
+            <Button style={{color:"black"}} onClick={async ()=>{handleCloseNavMenu(); props.views("Manage Token");await buildChart();}}>
+              {"Manage Token"}
+            </Button>
+            <Button id ="con-btn"variant="outlined"  onClick={async ()=>{
+              await connectToWeb3();
+              await changeAcc(connectedAccount[0].slice(0,8)+"...")
+              await props.ccc(true);
+              props.alert("Connected To "+connectedAccount[0].slice(0,8)+"...");
+            }}style={{color:"#d19b00",
+            borderColor:"#d19b00"}}>{acc}
+          </Button>
           </Box>
 
           

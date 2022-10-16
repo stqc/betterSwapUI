@@ -6,9 +6,10 @@ import { useMediaQuery } from "@mui/material";
 import Swap from './Swap';
 import {SearchToken} from './search';
 import Liquidity from "./liquidity";
-import {getFactoryContract,getPoolInfo} from "./connection.js";
+import {buildChart, getFactoryContract,getPoolInfo} from "./connection.js";
 import swapLogo from './Xgczj6_2_.svg';
 import { changeFrame,changeFrameM } from "./connection.js";
+
 const App = () => {
  const maxW = useMediaQuery(
    '(max-width:900 px)'
@@ -23,7 +24,7 @@ const App = () => {
  const[c,cc]=useState(false);
  const [alertVisible,setAlertVisibility] =useState('Alert');
  const [alertText, setAlertText] =useState('');
-
+ const [view,changeView] =useState('Trade');
   useEffect(async()=>{
       await getFactoryContract();
 
@@ -52,26 +53,36 @@ const App = () => {
   return (
     <>
     
-      <Navbar ccc={cf} alert={showAlert}/>
+      <Navbar ccc={cf} alert={showAlert} views={changeView}/>
       <div id="web3-found">
         <div className={alertVisible}>
           <h4 style={{fontWeight:"bold"}}>ALERT</h4>
           {alertText}
         </div>
       <div className="main-content">
-        <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}}/>
-        <div style={{display:Sgrid}}><Swap pooli ={pool} alerts={showAlert}/></div>
-        <div className="chart-main"  style={{display:Cgrid}}>
-          <div className="chart" id="chrt-m" style={{display:Cgrid}}> </div>
-          <div className="time-Selector-m">
-          <div className={clsName} onClick={()=>{changeFrameM("M"); changeClassName('selected');changeClassNameH('unselected');changeClassNameD('unselected')}}>1M</div><div className={clsNameH} onClick={()=>{changeFrameM("H");changeClassName('unselected');changeClassNameH('selected');changeClassNameD('unselected')}}>1H</div><div className={clsNameD} onClick={()=>{changeFrameM("D");  changeClassName('unselected');changeClassNameH('unselected');changeClassNameD('selected')}}>1D</div>
-          </div>
-        </div>
-          <div  style={{display:Lgrid}}><Liquidity/></div>
+        <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}} views={view}/>
+        {view==='Manage Token' &&<div className="manage-token-m">
+          <Liquidity pooli={pool} />
+        </div>}
+        {view==='Trade' && <><div style={{ display: Sgrid }}><Swap pooli={pool} alerts={showAlert} /></div><div className="chart-main" style={{ display: Cgrid }}>
+          <div className="chart" id="chrt-m" style={{ display: Cgrid }}> </div>
+            <div className="time-Selector-m">
+              <div className={clsName} onClick={() => { changeFrameM("M"); changeClassName('selected'); changeClassNameH('unselected'); changeClassNameD('unselected'); } }>1M</div><div className={clsNameH} onClick={() => { changeFrameM("H"); changeClassName('unselected'); changeClassNameH('selected'); changeClassNameD('unselected'); } }>1H</div><div className={clsNameD} onClick={() => { changeFrameM("D"); changeClassName('unselected'); changeClassNameH('unselected'); changeClassNameD('selected'); } }>1D</div>
+            </div>
+          </div></>}
+          
       </div>
+        
       <div className="main-content-PC">
-        <SearchToken update={updatepoolInfo}/>
-        <div className ="chart-swap">
+        <SearchToken update={updatepoolInfo} views={view}/>
+        {view ==='Manage Token' && <div className="manage-token">
+          <Liquidity pooli={pool}/>
+          <div className="contract-interaction">
+
+          </div>
+        </div>}
+        
+        {view==='Trade' && <div className ="chart-swap">
           <div className="chart-main">
           
             <div className="chart" id="chrt">
@@ -82,9 +93,9 @@ const App = () => {
             </div>
           </div>
           <Swap pooli ={pool} alerts={showAlert}/>
-        </div>
+        </div>}
       </div>
-      <Bottom setS={setSgrid} setC={setCgrid} setL={setLgrid}>{`{max-width:900px} matches: ${maxW}`}</Bottom>
+      {view==='Trade' &&<Bottom setS={setSgrid} setC={setCgrid} setL={setLgrid}>{`{max-width:900px} matches: ${maxW}`}</Bottom>}
 
       </div>
        <div className="footer" style={{bottom:"0" , width:"100%",position:"relative", marginTop:"20px", padding:"3% 2% 0% 2%"}}>

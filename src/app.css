@@ -10,12 +10,20 @@
     margin: 2%;
     
 }
+.manage-token-m{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.manage-token{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+}
 .Alert-enable{
     background-color: white;
     text-align: center;
     padding: 2%;
     position:fixed;
-    z-index: 3;
+    z-index: 10;
     transition: all 1s ;
     transform: translateY(-1vh);
     width:100%;
@@ -28,7 +36,7 @@
     text-align: center;
     padding: 2%;
     position:fixed;
-    z-index: 3;
+    z-index: 10;
     transition: all 1s ;
     transform: translateY(-310%);
     width: 100%;

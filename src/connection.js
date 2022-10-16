@@ -68,6 +68,14 @@ const getFactory =  ()=>{
 
 
 const getPool = async (tokenAddress)=>{
+    poolInfo={Address:null,
+        token2USD: null,
+        USD2token: null,
+        buyTax: null,
+        saleTax: null,
+        name:null,
+        supply:null};
+        tokenAD=tokenAddress
     try{
         
     tokenAD = tokenAddress;
@@ -111,6 +119,7 @@ const getPool = async (tokenAddress)=>{
     }
     catch(e){
         alert(e.message);
+
     }
     
 }
@@ -274,6 +283,7 @@ const buildChartM=async()=>{
     mSeries = mChart.addCandlestickSeries();
     mSeries.setData(chartData);
 }
+
 
 const changeFrame = (fr)=>{
     console.log(fr)
