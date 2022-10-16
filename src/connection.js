@@ -118,6 +118,10 @@ const getPool = async (tokenAddress)=>{
 const getPoolInfo = ()=>{
     return poolInfo;
 }
+
+export const getEntirePoolObject=()=>{
+    return pool;
+}
 const approveTX = async(tokenToApprove,amount)=>{
     amount=web3.utils.toWei(amount);
     console.log(tokenToApprove);
@@ -139,7 +143,8 @@ const buyToken =async (USD)=>{
         
          var tx= await pool.methods.buyToken(USD).send({from:connectedAccount[0]});
          await getPool(tokenAD);
-
+         buildChart();
+         buildChartM();
          return [tx.blockHash];
     }
     catch(e){
@@ -155,6 +160,8 @@ const sellToken =async (USD)=>{
          var tx= await pool.methods.sellToken(USD).send({from:connectedAccount[0]});
          console.log(tx);
          await getPool(tokenAD);
+         buildChart();
+         buildChartM();
          return [tx.blockHash];
     }
     catch(e){
@@ -306,25 +313,39 @@ window.addEventListener("load",()=>{
     
 })
 
-window.setInterval(async ()=>{
-
-    if(pool!=null){
-        if(prev && prev._address!=pool._address){
-            prev=pool;
-            await (chartData=[])
-            await buildChart();
-            await buildChartM();
-        
-        }else{
-            prev=pool;
-            await (chartData=[]);
-            await buildChart();
-            await buildChartM();
-        }
-    }else{
-        console.log("pool is null");
+export const updateChartData=async()=>{
+    if(frame=='M'){
+        await get1mChartData()
     }
-},1000);
+    if(frame=="H"){
+        await get1hChartData()
+    }
+    if(frame=="D"){
+        await get1dChartData()
+    }
+
+    await lineSeries.update(chartData);
+    await mSeries.update(chartData);
+}
+// window.setInterval(async ()=>{
+
+//     if(pool!=null){
+//         if(prev && prev._address!=pool._address){
+//             prev=pool;
+//             await (chartData=[])
+//             await updateChartData();
+
+        
+//         }else{
+//             prev=pool;
+//             await (chartData=[]);
+//             await updateChartData();
+//         }
+//     }else{
+//         console.log("pool is null");
+//     }
+// },1000);
+
 
 export {connectToWeb3,getConnectedAccount,getFactoryContract, 
     getFactory, getPool,getPoolInfo,approveTX
