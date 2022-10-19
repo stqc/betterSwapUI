@@ -54,7 +54,7 @@ const updateBalances =async ()=>{
 }
 const getFactoryContract = async ()=>{
     web3 = new Web3(window.ethereum);
-    factory = await new web3.eth.Contract(factoryABI,"0x7A0f8DBe8bee960572A05a363e75E5907B0ceAAe");
+    factory = await new web3.eth.Contract(factoryABI,"0xa46E2acc2DE686249567dD93aBC7D3cD1b54cfeb");
     USDAddress = await factory.methods.usd().call();
 }
 
