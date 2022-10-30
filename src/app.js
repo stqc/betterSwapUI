@@ -62,7 +62,7 @@ const App = () => {
       <div className="main-content">
         <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}} views={view}/>
         {view==='Manage Token' &&<div className="manage-token-m">
-          <Liquidity pooli={pool} />
+          <Liquidity pooli={pool} showA={showAlert}/>
         </div>}
         {view==='Trade' && <><div style={{ display: Sgrid }}><Swap pooli={pool} alerts={showAlert} /></div><div className="chart-main" style={{ display: Cgrid }}>
           <div className="chart" id="chrt-m" style={{ display: Cgrid }}> </div>
@@ -76,7 +76,7 @@ const App = () => {
       <div className="main-content-PC">
         <SearchToken update={updatepoolInfo} views={view}/>
         {view ==='Manage Token' && <div className="manage-token">
-          <Liquidity pooli={pool}/>
+          <Liquidity pooli={pool} showA ={showAlert}/>
           <div className="contract-interaction">
 
           </div>
@@ -99,7 +99,7 @@ const App = () => {
 
       </div>
        <div className="footer" style={{bottom:"0" , width:"100%",position:"relative", marginTop:"20px", padding:"3% 2% 0% 2%"}}>
-         <div className="footer-content" style={{display:"grid", height:"100%", gridTemplateColumns:"1fr 1fr", backgroundColor:"#F7F7F8", borderTopLeftRadius:"16px", borderTopRightRadius:"16px", padding:"2%"}}>
+         <div className="footer-content" style={{display:"grid", height:"60%", gridTemplateColumns:"1fr 1fr", backgroundColor:"#F7F7F8", borderTopLeftRadius:"16px", borderTopRightRadius:"16px", padding:"2%"}}>
             <div style={{display:"flex", alignItems:"flex-start"}}><img src={swapLogo} style={{width:"50px"}}/><p style={{marginTop:"revert", marginRight:"1%", fontWeight:"500",fontFamily: 'Merriweather Sans'}}>BetterSwap</p></div>
             <div style={{display:"flex", flexDirection:"column"}}>
               <p>Socials</p>
@@ -109,9 +109,12 @@ const App = () => {
                 <p>Discord</p>
               </div>
             </div>
-
+            
           </div>
-        
+          <div style={{width:"100%", display:"flex", backgroundColor:"rgb(247, 247, 248)", justifyContent:"space-around"}}>
+              <p style={{marginTop:"1%"}}>In the Loving Memory of Mikey &#10084;&#65039;
+</p>  
+            </div>
        </div>
         
     </>

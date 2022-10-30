@@ -19,7 +19,7 @@ import { connectToWeb3, getConnectedAccount,connectedAccount } from './connectio
 
 const ResponsiveAppBar = (props) => {
  const [acc,changeAcc] = React.useState('Connect')
-  const pages = ['Trade','Create Token', "Manage Token",(<Button id ="con-btn"variant="outlined"  onClick={async ()=>{
+  const pages = ['Trade', "Manage Token",(<Button id ="con-btn"variant="outlined"  onClick={async ()=>{
     await connectToWeb3();
     await changeAcc(connectedAccount[0].slice(0,8)+"...")
     await props.ccc(true);
@@ -110,9 +110,9 @@ const ResponsiveAppBar = (props) => {
               <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Trade"); await buildChartM();}}>
                   <Typography textAlign="center">{"Trade"}</Typography>
                 </MenuItem>
-                <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Create Token"); await buildChartM();}}>
+                {/* <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Create Token"); await buildChartM();}}>
                   <Typography textAlign="center">{"Create Token"}</Typography>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem style={{backgroundColor:"rgb(34,34,34)",color:"#b6b6b6"}} onClick={async()=>{handleCloseNavMenu();props.views("Manage Token"); await buildChartM();}}>
                   <Typography textAlign="center">{"Manage Token"}</Typography>
                 </MenuItem>
@@ -151,9 +151,9 @@ const ResponsiveAppBar = (props) => {
             <Button style={{color:"black"}} onClick={async ()=>{handleCloseNavMenu(); props.views("Trade");await buildChart();}}>
               {"Trade"}
             </Button>
-            <Button style={{color:"black"}}onClick={async ()=>{handleCloseNavMenu(); props.views("Create Token");await buildChart();}}>
+            {/* <Button style={{color:"black"}}onClick={async ()=>{handleCloseNavMenu(); props.views("Create Token");await buildChart();}}>
               {"Create Token"}
-            </Button>
+            </Button> */}
             <Button style={{color:"black"}} onClick={async ()=>{handleCloseNavMenu(); props.views("Manage Token");await buildChart();}}>
               {"Manage Token"}
             </Button>

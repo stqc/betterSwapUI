@@ -123,7 +123,10 @@ const getPool = async (tokenAddress)=>{
     }
     
 }
-
+export const createPool=async (buyTax,sellTax)=>{
+   var tx = await factory.methods.createNewPool(tokenAD,connectedAccount[0],buyTax,sellTax).send({from:connectedAccount[0]});
+    return tx;
+}
 const getPoolInfo = ()=>{
     return poolInfo;
 }

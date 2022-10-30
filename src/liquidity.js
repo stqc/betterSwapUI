@@ -5,7 +5,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from "@mui/system";
 import { useState,useEffect } from "react";
 import DenseTable from "./InfoTable";
-import { addLiquidity,requestLiquidityRemoval,approveTX,USDAddress,tokenAD } from "./connection";
+import { addLiquidity,requestLiquidityRemoval,approveTX,USDAddress,tokenAD,createPool } from "./connection";
 
 const theme = createTheme({
   status: {
@@ -24,6 +24,8 @@ export default function Liquidity(props){
     const [selected,changeSelected] =useState('Add Liquidity')
     var USDAmt = React.createRef();
     var TokenAmt = React.createRef();
+    var buyTx = React.createRef();
+    var saleTx = React.createRef();
     return(
         <div className="swap-content">
             {props.pooli.buyTax!=null && <div className="token-trade-selector">
@@ -41,17 +43,19 @@ export default function Liquidity(props){
                         }}
                         min={1} placeholder={"Enter USD"}  ref={USDAmt} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%"}}/> 
                         <input type="number" min={1} placeholder={"Token Amount"} ref={TokenAmt} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%",marginTop:"1%"}}/>
-                    <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(USDAddress,USDAmt.current.value)}} >Approve USD</button>
-                    <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(tokenAD,amountRef.current.value)}} >Approve Token</button>
+                    <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(USDAddress,USDAmt.current.value); x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}}>Approve USD</button>
+                    <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(tokenAD,amountRef.current.value); x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}} >Approve Token</button>
 
                     </div>}
                     
                     <button variant="contained" id="execute" 
                         onClick={()=>{
                             if(selected=="Add Liquidity"){
-                                addLiquidity(USDAmt.current.value,TokenAmt.current.value);
+                                var x=addLiquidity(USDAmt.current.value,TokenAmt.current.value);
+                                x.length>1?props.showA(x[0]): props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")
                             }else{
-                                requestLiquidityRemoval();
+                                var x= requestLiquidityRemoval();
+                                x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")
                             }
                         }}
                     >{selected}</button>
@@ -59,7 +63,11 @@ export default function Liquidity(props){
                 
             </ThemeProvider>}
             {props.pooli.buyTax==null &&
-                                <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(USDAddress,USDAmt.current.value)}} >Create Pool</button>
+            <div style={{border:"1px solid white", borderRadius:"16px", padding:"1%"}}>
+                                <input type="number" min={1} placeholder={"Buy Tax "} ref={buyTx} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%",marginTop:"1%"}}/>
+                                <input type="number" min={1} placeholder={"Sell Tax"} ref={saleTx} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%",marginTop:"1%"}}/>
+                                <button variant="contained" id="execute"onClick={async()=>{var x= await createPool(buyTx.current.value,saleTx.current.value)}} >Create Pool</button>
+                                </div>
                             }
         </div>
     );
