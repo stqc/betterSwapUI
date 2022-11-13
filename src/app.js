@@ -9,6 +9,7 @@ import Liquidity from "./liquidity";
 import {buildChart, getFactoryContract,getPoolInfo} from "./connection.js";
 import swapLogo from './Xgczj6_2_.svg';
 import { changeFrame,changeFrameM } from "./connection.js";
+import Favicon from 'react-favicon'
 
 const App = () => {
  const maxW = useMediaQuery(
@@ -52,7 +53,7 @@ const App = () => {
     }
   return (
     <>
-    
+        <Favicon url={swapLogo} />
       <Navbar ccc={cf} alert={showAlert} views={changeView}/>
       <div id="web3-found">
         <div className={alertVisible}>
@@ -104,9 +105,9 @@ const App = () => {
             <div style={{display:"flex", flexDirection:"column"}}>
               <p>Socials</p>
               <div style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
-                <p>Docs</p>
-                <p>Twitter</p>
-                <p>Discord</p>
+                <a href="" target="_blank">Docs</a>
+                <a href="" target="_blank">Twitter</a>
+                <a href="" target="_blank">Discord</a>
               </div>
             </div>
             
