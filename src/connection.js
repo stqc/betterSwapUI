@@ -15,7 +15,8 @@ var poolInfo={Address:null,
     buyTax: null,
     saleTax: null,
     name:null,
-    supply:null};
+    supply:null,
+    ben: null};
 var tokenAD=null;
 var USDAddress;
 var chartData=[];
@@ -54,7 +55,7 @@ const updateBalances =async ()=>{
 }
 const getFactoryContract = async ()=>{
     web3 = new Web3(window.ethereum);
-    factory = await new web3.eth.Contract(factoryABI,"0x832B613BcfE7C8715EBB9d4440CF2D33f80a1994");
+    factory = await new web3.eth.Contract(factoryABI,"0x7F89147074655A680379f72e4A0b5d306E138280");
     USDAddress = await factory.methods.usd().call();
 }
 
@@ -75,7 +76,8 @@ const getPool = async (tokenAddress)=>{
         buyTax: null,
         saleTax: null,
         name:null,
-        supply:null};
+        supply:null,
+        ben: null};
         tokenAD=tokenAddress
     try{
         
@@ -99,6 +101,7 @@ const getPool = async (tokenAddress)=>{
                 saleTax: await pool.methods.saleTax().call(),
                 name: await bep20.methods.name().call(),
                 supply: sup.toLocaleString(),
+                ben: await pool.methods.beneficiery().call(),
             }
             
             
@@ -114,20 +117,21 @@ const getPool = async (tokenAddress)=>{
                 saleTax: await pool.methods.saleTax().call(),
                 name: await bep20.methods.name().call(),
                 supply: sup.toLocaleString(),
+                ben: await pool.methods.beneficiery().call(),
             }
         }
 
     return poolInfo;
     }
     catch(e){
-        alert(e.message);
+        console.log(e.message);
 
     }
     
 }
 export const createPool=async (buyTax,sellTax)=>{
    var tx = await factory.methods.createNewPool(tokenAD,connectedAccount[0],buyTax,sellTax).send({from:connectedAccount[0]});
-    return tx;
+    return [tx.blockHash];
 }
 const getPoolInfo = ()=>{
     return poolInfo;
@@ -136,6 +140,44 @@ const getPoolInfo = ()=>{
 export const getEntirePoolObject=()=>{
     return pool;
 }
+
+export const sendUSDToContract = async(amount)=>{
+    amount = web3.utils.toWei(amount);
+    try{var tokenContract = await new web3.eth.Contract(bep20ABI,USDAddress);
+    var tx  = await tokenContract.methods.transfer(tokenAD,amount).send({from:connectedAccount[0]});
+    console.log(tx.blockHash);
+    return [tx.blockHash];}
+    catch(e){
+        return [e.message,0];
+    }
+
+
+}
+
+export const addLiquidityThroughContract = async(tokenAMT,usdAMT)=>{
+    tokenAMT = web3.utils.toWei(tokenAMT);
+    usdAMT =web3.utils.toWei(usdAMT);
+    console.log(tokenAMT,usdAMT);
+   try{ var tokenContract = await new web3.eth.Contract(bep20ABI,tokenAD);
+    var tx = await tokenContract.methods.addInitialLiquidity(usdAMT,tokenAMT).send({from:connectedAccount[0]});
+    console.log(tx.blockHash);
+    return [tx.blockHash];}
+    catch(e){
+        return [e.message,0];
+    }
+}
+
+export const removeLPContract=async()=>{
+    try{ var tokenContract = await new web3.eth.Contract(bep20ABI,tokenAD);
+        var tx = await tokenContract.methods.requestLiqudityRemoval().send({from:connectedAccount[0]});
+        console.log(tx.blockHash);
+        return [tx.blockHash];}
+        catch(e){
+            return [e.message,0];
+        }
+}
+
+
 const approveTX = async(tokenToApprove,amount)=>{
     amount=web3.utils.toWei(amount);
     console.log(tokenToApprove);
@@ -189,10 +231,10 @@ const addLiquidity= async(USD,Token)=>{
     try{
         var tx = await pool.methods.addLiquidity(Token,USD).send({from:connectedAccount[0]});
         console.log(tx);
-        return tx.blockHash;
+        return [tx.blockHash];
     }
     catch(e){
-        return e.message;
+        return [e.message];
     }
 }
 const get1hChartData = async()=>{
@@ -342,24 +384,7 @@ export const updateChartData=async()=>{
     await lineSeries.update(chartData);
     await mSeries.update(chartData);
 }
-// window.setInterval(async ()=>{
 
-//     if(pool!=null){
-//         if(prev && prev._address!=pool._address){
-//             prev=pool;
-//             await (chartData=[])
-//             await updateChartData();
-
-        
-//         }else{
-//             prev=pool;
-//             await (chartData=[]);
-//             await updateChartData();
-//         }
-//     }else{
-//         console.log("pool is null");
-//     }
-// },1000);
 
 
 export {connectToWeb3,getConnectedAccount,getFactoryContract, 

@@ -23,6 +23,7 @@ const App = () => {
  const[clsNameH,changeClassNameH] = useState('unselected');
  const[clsNameD,changeClassNameD] = useState('selected');
  const[c,cc]=useState(false);
+ const[d,dd] =useState(0);
  const [alertVisible,setAlertVisibility] =useState('Alert');
  const [alertText, setAlertText] =useState('');
  const [view,changeView] =useState('Trade');
