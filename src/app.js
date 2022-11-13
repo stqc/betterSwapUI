@@ -64,7 +64,7 @@ const App = () => {
       <div className="main-content">
         <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}} views={view}/>
         {view==='Manage Token' &&<div className="manage-token-m">
-          <Liquidity pooli={pool} showA={showAlert}/>
+          <Liquidity pooli={pool} t={dd} td={d} showA={showAlert}/>
         </div>}
         {view==='Trade' && <><div style={{ display: Sgrid }}><Swap pooli={pool} alerts={showAlert} /></div><div className="chart-main" style={{ display: Cgrid }}>
           <div className="chart" id="chrt-m" style={{ display: Cgrid }}> </div>
@@ -78,7 +78,7 @@ const App = () => {
       <div className="main-content-PC">
         <SearchToken update={updatepoolInfo} views={view}/>
         {view ==='Manage Token' && <div className="manage-token">
-          <Liquidity pooli={pool} showA ={showAlert}/>
+          <Liquidity pooli={pool} t={dd} td={d} showA ={showAlert}/>
           <div className="contract-interaction">
 
           </div>
