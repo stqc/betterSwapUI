@@ -54,7 +54,7 @@ const updateBalances =async ()=>{
 }
 const getFactoryContract = async ()=>{
     web3 = new Web3(window.ethereum);
-    factory = await new web3.eth.Contract(factoryABI,"0xa46E2acc2DE686249567dD93aBC7D3cD1b54cfeb");
+    factory = await new web3.eth.Contract(factoryABI,"0x832B613BcfE7C8715EBB9d4440CF2D33f80a1994");
     USDAddress = await factory.methods.usd().call();
 }
 
@@ -68,6 +68,7 @@ const getFactory =  ()=>{
 
 
 const getPool = async (tokenAddress)=>{
+    pool=null;
     poolInfo={Address:null,
         token2USD: null,
         USD2token: null,
@@ -81,6 +82,7 @@ const getPool = async (tokenAddress)=>{
     tokenAD = tokenAddress;
     
     var poolAddress = await factory.methods.TokenToPool(tokenAddress).call();
+    console.log(poolAddress);
     pool===null?pool = await new web3.eth.Contract(poolABI,poolAddress):pool;
     var bep20 = await new web3.eth.Contract(bep20ABI,tokenAddress);
     console.log(pool._address,tokenAD);

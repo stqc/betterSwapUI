@@ -33,7 +33,7 @@ function SearchToken(props){
                 <Button variant="contained" id="search-btn"
                 onClick={
                   async()=>{
-                    updatePool(await getPool(newRef.current.value));
+                    await updatePool(await getPool(newRef.current.value));
                     await props.update();
                     await buildChart();
                     
