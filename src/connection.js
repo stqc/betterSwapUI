@@ -44,13 +44,13 @@ export const getTokenBal=()=>{
 
 
 export const approveUSD=async (amt)=>{
-    var tx = await dollar.methods.approve("0xD104193915010C4011cBf94F58dd9559348fBeB5",amt).send({from:connectedAccount[0]});
+    var tx = await dollar.methods.approve("0x2e812cd1D71a1A38b8Bf6A77330fEeE350daB2c9",amt).send({from:connectedAccount[0]});
     return [tx.blockHash];
 }
 export const createToken= async (name_,symbol,supply,buyt,sellt,lpt)=>{
     console.log(lpt);
 
-    var tokenFactory_=new web3.eth.Contract(tokenFactoryABI,"0xD104193915010C4011cBf94F58dd9559348fBeB5");
+    var tokenFactory_=new web3.eth.Contract(tokenFactoryABI,"0x2e812cd1D71a1A38b8Bf6A77330fEeE350daB2c9");
     try{
         if(lpt>0){
             var tx = await tokenFactory_.methods.createLPToken(name_,symbol,supply,buyt,sellt,lpt).send({from:connectedAccount[0]});
@@ -259,7 +259,7 @@ const addLiquidity= async(USD,Token)=>{
     try{
         var tx = await pool.methods.addLiquidity(Token,USD).send({from:connectedAccount[0]});
         console.log(tx);
-        getPool(tokenAD);
+        await getPool(tokenAD);
         return [tx.blockHash];
     }
     catch(e){
