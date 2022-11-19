@@ -17,7 +17,7 @@
 .manage-token{
     display: grid;
     grid-template-columns: 1fr;
-    padding: 0% 30% 30% 30%;
+    padding: 0% 30% 10% 30%;
 }
 .Alert-enable{
     background-color: white;

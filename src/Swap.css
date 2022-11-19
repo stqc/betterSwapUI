@@ -1,4 +1,4 @@
-.swap-content{
+.swap-content,.create-content{
     display: grid;
     grid-template-columns: 1fr;
     background: linear-gradient(180deg, rgba(28, 29, 35, 0.8) 0%, #1C1D23 100%);
@@ -9,12 +9,30 @@ border-radius: 16px;
     padding: 5%;
 }
 
+.create-content{
+    margin: 2% 10%;
+}
+.form-content{
+    background: transparent;
+    display: grid;
+    padding-top: 2%;
+    grid-template-columns: 1fr;
+}
+.form-content>input{
+    margin-top: 1%;
+}
+.form-content>label{
+    color:white;
+}
 .token-trade-selector{
     display: grid;
     grid-template-columns: 1fr 1fr;
 
 }
 
+option{
+    color: black;
+}
 
 .token-trade{
     display: grid;
@@ -80,4 +98,10 @@ th,td{
     margin-top:5%;
     color: white
 
+}
+
+@media screen and (max-width:900px) {
+    .create-content{
+        margin: 2% 2%;
+    }
 }

@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import {bep20ABI} from "./abi.js";
+import {bep20ABI, tokenFactoryABI} from "./abi.js";
 import { factoryABI } from "./abi.js";
 import { poolABI } from "./abi.js";
 import { createChart } from "lightweight-charts"
@@ -41,6 +41,33 @@ export const getbal=()=>{
 export const getTokenBal=()=>{
     return tokenBale;
 }
+
+
+export const approveUSD=async (amt)=>{
+    var tx = await dollar.methods.approve("0xD104193915010C4011cBf94F58dd9559348fBeB5",amt).send({from:connectedAccount[0]});
+    return [tx.blockHash];
+}
+export const createToken= async (name_,symbol,supply,buyt,sellt,lpt)=>{
+    console.log(lpt);
+
+    var tokenFactory_=new web3.eth.Contract(tokenFactoryABI,"0xD104193915010C4011cBf94F58dd9559348fBeB5");
+    try{
+        if(lpt>0){
+            var tx = await tokenFactory_.methods.createLPToken(name_,symbol,supply,buyt,sellt,lpt).send({from:connectedAccount[0]});
+            return [tx.blockHash];
+        }
+        else{
+            var tx = await tokenFactory_.methods.createSimpleToken(name_,symbol,supply,buyt,sellt).send({from:connectedAccount[0]});
+            return [tx.blockHash];
+        }
+    }
+    catch(e){
+        return [e.message,0];
+    }
+
+
+}
+
 
 const updateBalances =async ()=>{
     connectedAccount!=null?
@@ -161,6 +188,7 @@ export const addLiquidityThroughContract = async(tokenAMT,usdAMT)=>{
    try{ var tokenContract = await new web3.eth.Contract(bep20ABI,tokenAD);
     var tx = await tokenContract.methods.addInitialLiquidity(usdAMT,tokenAMT).send({from:connectedAccount[0]});
     console.log(tx.blockHash);
+    getPool(tokenAD);
     return [tx.blockHash];}
     catch(e){
         return [e.message,0];
@@ -231,6 +259,7 @@ const addLiquidity= async(USD,Token)=>{
     try{
         var tx = await pool.methods.addLiquidity(Token,USD).send({from:connectedAccount[0]});
         console.log(tx);
+        getPool(tokenAD);
         return [tx.blockHash];
     }
     catch(e){

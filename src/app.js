@@ -10,6 +10,7 @@ import {buildChart, getFactoryContract,getPoolInfo} from "./connection.js";
 import swapLogo from './Xgczj6_2_.svg';
 import { changeFrame,changeFrameM } from "./connection.js";
 import Favicon from 'react-favicon'
+import CreateToken from "./createToken";
 
 const App = () => {
  const maxW = useMediaQuery(
@@ -62,7 +63,7 @@ const App = () => {
           {alertText}
         </div>
       <div className="main-content">
-        <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}} views={view}/>
+        {view!=="Create Token" && <SearchToken update={updatepoolInfo} style={{marginBottom:"4%"}} views={view}/>}
         {view==='Manage Token' &&<div className="manage-token-m">
           <Liquidity pooli={pool} t={dd} td={d} showA={showAlert}/>
         </div>}
@@ -72,18 +73,22 @@ const App = () => {
               <div className={clsName} onClick={() => { changeFrameM("M"); changeClassName('selected'); changeClassNameH('unselected'); changeClassNameD('unselected'); } }>1M</div><div className={clsNameH} onClick={() => { changeFrameM("H"); changeClassName('unselected'); changeClassNameH('selected'); changeClassNameD('unselected'); } }>1H</div><div className={clsNameD} onClick={() => { changeFrameM("D"); changeClassName('unselected'); changeClassNameH('unselected'); changeClassNameD('selected'); } }>1D</div>
             </div>
           </div></>}
-          
+          {view ==="Create Token" && <div className="create-token">
+          <CreateToken showA={showAlert}></CreateToken>
+        </div>}
       </div>
         
       <div className="main-content-PC">
-        <SearchToken update={updatepoolInfo} views={view}/>
+        {view!=="Create Token" && <SearchToken update={updatepoolInfo} views={view}/>}
         {view ==='Manage Token' && <div className="manage-token">
           <Liquidity pooli={pool} t={dd} td={d} showA ={showAlert}/>
           <div className="contract-interaction">
 
           </div>
         </div>}
-        
+        {view ==="Create Token" && <div className="create-token">
+          <CreateToken showA={showAlert}></CreateToken>
+        </div>}
         {view==='Trade' && <div className ="chart-swap">
           <div className="chart-main">
           
