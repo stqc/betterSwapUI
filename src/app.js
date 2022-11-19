@@ -111,9 +111,9 @@ const App = () => {
             <div style={{display:"flex", flexDirection:"column"}}>
               <p>Socials</p>
               <div style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
-                <a href="" target="_blank">Docs</a>
+                <a href="https://docs.betterswap.fi/" target="_blank">Docs</a>
                 <a href="https://twitter.com/BetterSwap_fi?t=La-yfPUAFx9YGTrLCdaC3w&s=09" target="_blank">Twitter</a>
-                <a href="" target="_blank">Discord</a>
+                <a href="https://discord.gg/myuTErD5hh" target="_blank">Discord</a>
               </div>
             </div>
             
