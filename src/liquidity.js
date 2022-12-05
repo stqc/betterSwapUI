@@ -35,7 +35,7 @@ export default function Liquidity(props){
             </div>}
             {props.pooli.buyTax!=null &&<ThemeProvider theme={theme}>
                 <div className="token-trade">
-                    <DenseTable style={{backgroundColor:"transparent"}} poolInfo={props.pooli}/> 
+                    <DenseTable ref={DenseTable=>{window.infoTable=DenseTable}} style={{backgroundColor:"transparent"}} poolInfo={props.pooli}/> 
                     {selected =="Add Liquidity" &&<div className="inp" style={{padding:"2%", marginTop:"10%"}}>
                         <input type="number" 
                         onChange={()=>{

@@ -43,7 +43,7 @@ export default function Swap(props){
             </div>
             <ThemeProvider theme={theme}>
                 <div className="token-trade">
-                    <DenseTable style={{backgroundColor:"transparent"}} poolInfo={props.pooli}/>
+                    <DenseTable ref={DenseTable=>{window.infoTable=DenseTable}} style={{backgroundColor:"transparent"}} poolInfo={props.pooli}/>
                     <div className="inp">
                         <input type="number" min={1} placeholder={labelContent} ref={amountRef} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%"}}/>
                         <p style={{fontSize:"small"}}>{bal} Balance: {currentBal}</p>
@@ -51,11 +51,11 @@ export default function Swap(props){
                     
                     {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(USDAddress,amountRef.current.value);
                                 x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}} >Approve</button>)}
-                    {(selected=='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await buyToken(amountRef.current.value)
+                    {(selected=='Buy Token' && <button variant="contained" id="executeS" onClick={async()=>{var x= await buyToken(amountRef.current.value)
                     x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}}>{selected}</button>)}
                     {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(tokenAD,amountRef.current.value)
                         x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}} >Approve</button>)}
-                    {(selected!='Buy Token' && <button variant="contained" id="execute" onClick={async()=>{var x= await sellToken(amountRef.current.value)
+                    {(selected!='Buy Token' && <button variant="contained" id="executeS" onClick={async()=>{var x= await sellToken(amountRef.current.value)
                         x.length>1?props.alerts(x[0]):props.alerts("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...")}}>{selected}</button>)}
                 </div>
             </ThemeProvider>

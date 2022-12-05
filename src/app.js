@@ -6,7 +6,7 @@ import { useMediaQuery } from "@mui/material";
 import Swap from './Swap';
 import {SearchToken} from './search';
 import Liquidity from "./liquidity";
-import {buildChart, getFactoryContract,getPoolInfo} from "./connection.js";
+import {connectToWeb3, getFactoryContract,getPoolInfo} from "./connection.js";
 import swapLogo from './Xgczj6_2_.svg';
 import { changeFrame,changeFrameM } from "./connection.js";
 import Favicon from 'react-favicon'
@@ -28,9 +28,10 @@ const App = () => {
  const [alertVisible,setAlertVisibility] =useState('Alert');
  const [alertText, setAlertText] =useState('');
  const [view,changeView] =useState('Trade');
-  useEffect(async()=>{
+  
+ useEffect(async()=>{
       await getFactoryContract();
-
+      await connectToWeb3();
   },[]);
     
     const [pool,updatePool] = useState({Address:"",

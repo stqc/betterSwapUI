@@ -3,9 +3,11 @@ import {bep20ABI, tokenFactoryABI} from "./abi.js";
 import { factoryABI } from "./abi.js";
 import { poolABI } from "./abi.js";
 import { createChart } from "lightweight-charts"
+import { UpdateDatainTable,createData } from "./InfoTable.js";
+
 
 // updates
-var web3;
+export var web3;
 var connectedAccount = null;
 var factory;
 export var pool=null;
@@ -25,13 +27,36 @@ var frame ="D";
 var USDBale=0;
 var tokenBale=0;
 var dollar;
-var prev;
+
+
 const connectToWeb3 = async ()=>{
 
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccount = await web3.eth.getAccounts();
     dollar = await new web3.eth.Contract(bep20ABI,USDAddress);
     await updateBalances();
+    const subscription = web3.eth.subscribe(
+        "newBlockHeaders",
+        async (err, result) => {
+            const { number } = result;
+            console.log(number)
+            
+            if(tokenAD!=null){ 
+                updateChartData();
+                upChart();
+                updatePoolPrice();  
+                if(UpdateDatainTable){
+                UpdateDatainTable([createData('Token Name', poolInfo.name ),
+                createData('Pool Address', poolInfo.Address),
+                createData('Total Supply', poolInfo.supply),
+                createData('Tokens/USD', poolInfo.token2USD),
+                createData('USD/Token', poolInfo.USD2token),
+                createData('Buy Tax',poolInfo.buyTax),
+                createData('Sell Tax',poolInfo.saleTax)])
+                console.log("updatd");
+            }
+             }
+       });
 }
 export const getbal=()=>{
 
@@ -93,8 +118,23 @@ const getConnectedAccount = ()=>{
 const getFactory =  ()=>{
     return factory;
 }
+export const updatePoolPrice = async ()=>{
+    var bep20 = await new web3.eth.Contract(bep20ABI,tokenAD);
+    var sup = await bep20.methods.totalSupply().call()/1e18
 
 
+    poolInfo ={
+        Address:pool._address,
+        token2USD: await pool.methods.tokenPerUSD().call()/1e18,
+        USD2token: await pool.methods.USDPerToken().call()/1e18,
+        buyTax: await pool.methods.buyTax().call(),
+        saleTax: await pool.methods.saleTax().call(),
+        name: await bep20.methods.name().call(),
+        supply: sup.toLocaleString(),
+        ben: await pool.methods.beneficiery().call(),
+    }
+
+}
 const getPool = async (tokenAddress)=>{
     pool=null;
     poolInfo={Address:null,
@@ -227,8 +267,6 @@ const buyToken =async (USD)=>{
         
          var tx= await pool.methods.buyToken(USD).send({from:connectedAccount[0]});
          await getPool(tokenAD);
-         buildChart();
-         buildChartM();
          return [tx.blockHash];
     }
     catch(e){
@@ -244,8 +282,6 @@ const sellToken =async (USD)=>{
          var tx= await pool.methods.sellToken(USD).send({from:connectedAccount[0]});
          console.log(tx);
          await getPool(tokenAD);
-         buildChart();
-         buildChartM();
          return [tx.blockHash];
     }
     catch(e){
@@ -267,13 +303,13 @@ const addLiquidity= async(USD,Token)=>{
     }
 }
 const get1hChartData = async()=>{
-    chartData=[];
+    let chartData=[];
     try{
         let data= await pool.methods.showTradeData(60).call();
         for(let i =1; i<data.length; i++){
             chartData.push({time:Number(data[i].time),open:data[i].Open/1e18,low: data[i].Low/1e18,high:data[i].High/1e18,close:data[i].Close/1e18})
         }
-
+        return chartData;
     }
     catch(e){
         console.log(e.message);
@@ -281,26 +317,26 @@ const get1hChartData = async()=>{
     
 }
 const get1mChartData = async()=>{
-    chartData=[];
+    let chartData=[];
     try{
         let data= await pool.methods.showTradeData(1).call();
         for(let i =1; i<data.length; i++){
             chartData.push({time:Number(data[i].time),open:data[i].Open/1e18,low: data[i].Low/1e18,high:data[i].High/1e18,close:data[i].Close/1e18})
         }
-
+        return chartData
     }
     catch(e){
         console.log(e.message);
     }
 }
 const get1dChartData = async()=>{
-    chartData=[];
+    let chartData=[];
     try{
         let data= await pool.methods.showTradeData(24).call();
         for(let i =1; i<data.length; i++){
             chartData.push({time:Number(data[i].time),open:data[i].Open/1e18,low: data[i].Low/1e18,high:data[i].High/1e18,close:data[i].Close/1e18})
         }
-
+        return chartData;
     }
     catch(e){
         console.log(e.message);
@@ -321,43 +357,60 @@ const requestLiquidityRemoval= async()=>{
 }
 
 const buildChart=async()=>{
-    
+    try{lineSeries.setData([]);}
+    catch(e){console.log(e.message);}
+        let data;
         if(frame=='M'){
-            await get1mChartData()
+          data=  await get1mChartData()
         }
         if(frame=="H"){
-            await get1hChartData()
+           data= await get1hChartData()
         }
         if(frame=="D"){
-            await get1dChartData()
+            data =await get1dChartData()
         }
 
-   
     document.getElementById('chrt').innerHTML="";
     chart = createChart(document.getElementById("chrt"), { width: document.getElementById("chrt").offsetWidth, height:  document.getElementById("chrt").offsetHeight});
     lineSeries = chart.addCandlestickSeries();
-    mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
-    mSeries = mChart.addCandlestickSeries();
-    lineSeries.setData(chartData);
-    mSeries.setData(chartData);
-}
-const buildChartM=async()=>{
     
+    lineSeries.setData(data);
+}
+
+const buildChartM=async()=>{
+    try{mSeries.setData([]);}
+    catch(e){console.log(e.message);}
+
+    let data
         if(frame=='M'){
-            await get1mChartData()
+           data= await get1mChartData()
         }
         if(frame=="H"){
-            await get1hChartData()
+           data = await get1hChartData()
         }
         if(frame=="D"){
-            await get1dChartData()
+           data= await get1dChartData()
         }
 
     
     document.getElementById('chrt-m').innerHTML="";
     mChart = createChart(document.getElementById("chrt-m"), { width: document.getElementById("chrt-m").offsetWidth, height:  document.getElementById("chrt-m").offsetHeight});
     mSeries = mChart.addCandlestickSeries();
-    mSeries.setData(chartData);
+    mSeries.setData(data);
+}
+
+const upChart = async ()=>{
+    let data;
+    if(frame=='M'){
+       data= await get1mChartData()
+    }
+    if(frame=="H"){
+        data=await get1hChartData()
+    }
+    if(frame=="D"){
+        data=await get1dChartData()
+    }
+    mSeries.setData(data); 
 }
 
 
@@ -400,18 +453,18 @@ window.addEventListener("load",()=>{
 })
 
 export const updateChartData=async()=>{
+    let data;
     if(frame=='M'){
-        await get1mChartData()
+       data= await get1mChartData()
     }
     if(frame=="H"){
-        await get1hChartData()
+        data=await get1hChartData()
     }
     if(frame=="D"){
-        await get1dChartData()
+        data=await get1dChartData()
     }
-
-    await lineSeries.update(chartData);
-    await mSeries.update(chartData);
+    console.log(data)
+    lineSeries.setData(data);
 }
 
 
