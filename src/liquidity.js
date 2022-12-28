@@ -44,18 +44,15 @@ export default function Liquidity(props){
                         }}
                         min={1} placeholder={"Enter USD"}  ref={USDAmt} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%"}}/> 
                         <input type="number" min={1} placeholder={"Token Amount"} ref={TokenAmt} style={{color:"white", background:"transparent", border:"0px solid ", padding:"1%", width:"100%",marginTop:"1%"}}/>
-                    {props.pooli.ben!=tokenAD && <>
+                    { <>
                         <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(USDAddress,USDAmt.current.value); x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"..."); props.dd(d++)}}>Approve USD</button>
                         <button variant="contained" id="execute" onClick={async()=>{var x= await approveTX(tokenAD,TokenAmt.current.value); x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"..."); props.dd(d++)}} >Approve Token</button>
                     </>}
 
-                    {props.pooli.ben==tokenAD && <>
-                        <button variant="contained" id="execute" onClick={async()=>{var x= await sendUSDToContract(USDAmt.current.value); x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"..."); props.dd(d++)}}>Send USD</button>
-                    </>}
 
                     </div>}
                     
-                    {props.pooli.ben!=tokenAD &&<button variant="contained" id="execute" 
+                    {<button variant="contained" id="execute" 
                         onClick={async ()=>{
                             if(selected=="Add Liquidity"){
                                 var x= await addLiquidity(USDAmt.current.value,TokenAmt.current.value);
@@ -69,21 +66,7 @@ export default function Liquidity(props){
                         }}
                     >{selected}</button>}
 
-                    {props.pooli.ben==tokenAD &&<button variant="contained" id="execute" 
-                        onClick={async ()=>{
-                            if(selected=="Add Liquidity"){
-                                console.log(TokenAmt.current.value);
-                                var x= await addLiquidityThroughContract(TokenAmt.current.value,USDAmt.current.value);
-                                x.length>1?props.showA(x[0]): props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...");
-                                props.dd(d++);
-                            }else{
-                                
-                                var x= await removeLPContract();
-                                x.length>1?props.showA(x[0]):props.showA("Transaction Successfull\n TxHash: "+x[0].slice(0,15)+"...");
-                                props.dd(d++)
-                            }
-                        }}
-                    >{selected}</button>}                  
+                               
                 </div>
                 
             </ThemeProvider>}

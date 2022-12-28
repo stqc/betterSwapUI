@@ -53,7 +53,6 @@ const connectToWeb3 = async ()=>{
                 createData('USD/Token', poolInfo.USD2token),
                 createData('Buy Tax',poolInfo.buyTax),
                 createData('Sell Tax',poolInfo.saleTax)])
-                console.log("updatd");
             }
              }
        });
@@ -69,22 +68,19 @@ export const getTokenBal=()=>{
 
 
 export const approveUSD=async (amt)=>{
-    var tx = await dollar.methods.approve("0x2e812cd1D71a1A38b8Bf6A77330fEeE350daB2c9",amt).send({from:connectedAccount[0]});
+    var tx = await dollar.methods.approve("0x2EAE4204ee43748d20FB6a2d51f0064d6e96afe8",amt).send({from:connectedAccount[0]});
     return [tx.blockHash];
 }
-export const createToken= async (name_,symbol,supply,buyt,sellt,lpt)=>{
+export const createToken= async (name_,symbol,supply,buyt,sellt,lpt,refAD)=>{
     console.log(lpt);
-
-    var tokenFactory_=new web3.eth.Contract(tokenFactoryABI,"0x2e812cd1D71a1A38b8Bf6A77330fEeE350daB2c9");
+    var add;
+    refAD?add=refAD:add="0xAFfD36344588708563ac19F0eaD1Bb80d93f3E4C";
+    var tokenFactory_=new web3.eth.Contract(tokenFactoryABI,"0x30C786d3Ce468c1901b4a99b7f5249c3818f9fb3");
     try{
-        if(lpt>0){
-            var tx = await tokenFactory_.methods.createLPToken(name_,symbol,supply,buyt,sellt,lpt).send({from:connectedAccount[0]});
+        
+            var tx = await tokenFactory_.methods.createSimpleToken(name_,symbol,supply,buyt,sellt,lpt,add).send({from:connectedAccount[0]});
             return [tx.blockHash];
-        }
-        else{
-            var tx = await tokenFactory_.methods.createSimpleToken(name_,symbol,supply,buyt,sellt).send({from:connectedAccount[0]});
-            return [tx.blockHash];
-        }
+        
     }
     catch(e){
         return [e.message,0];
@@ -107,7 +103,7 @@ const updateBalances =async ()=>{
 }
 const getFactoryContract = async ()=>{
     web3 = new Web3(window.ethereum);
-    factory = await new web3.eth.Contract(factoryABI,"0x7F89147074655A680379f72e4A0b5d306E138280");
+    factory = await new web3.eth.Contract(factoryABI,"0xAFfD36344588708563ac19F0eaD1Bb80d93f3E4C");
     USDAddress = await factory.methods.usd().call();
 }
 
@@ -127,8 +123,8 @@ export const updatePoolPrice = async ()=>{
         Address:pool._address,
         token2USD: await pool.methods.tokenPerUSD().call()/1e18,
         USD2token: await pool.methods.USDPerToken().call()/1e18,
-        buyTax: await pool.methods.buyTax().call(),
-        saleTax: await pool.methods.saleTax().call(),
+        buyTax: await pool.methods.totalBuyTax().call(),
+        saleTax: await pool.methods.totalSaleTax().call(),
         name: await bep20.methods.name().call(),
         supply: sup.toLocaleString(),
         ben: await pool.methods.beneficiery().call(),
@@ -164,8 +160,8 @@ const getPool = async (tokenAddress)=>{
                 Address:pool._address,
                 token2USD: await pool.methods.tokenPerUSD().call()/1e18,
                 USD2token: await pool.methods.USDPerToken().call()/1e18,
-                buyTax: await pool.methods.buyTax().call(),
-                saleTax: await pool.methods.saleTax().call(),
+                buyTax: await pool.methods.totalBuyTax().call(),
+                saleTax: await pool.methods.totalSaleTax().call(),
                 name: await bep20.methods.name().call(),
                 supply: sup.toLocaleString(),
                 ben: await pool.methods.beneficiery().call(),
@@ -180,8 +176,8 @@ const getPool = async (tokenAddress)=>{
                 Address:pool._address,
                 token2USD: 0,
                 USD2token: 0,
-                buyTax: await pool.methods.buyTax().call(),
-                saleTax: await pool.methods.saleTax().call(),
+                buyTax: await pool.methods.totalBuyTax().call(),
+                saleTax: await pool.methods.totalSaleTax().call(),
                 name: await bep20.methods.name().call(),
                 supply: sup.toLocaleString(),
                 ben: await pool.methods.beneficiery().call(),
@@ -196,55 +192,13 @@ const getPool = async (tokenAddress)=>{
     }
     
 }
-export const createPool=async (buyTax,sellTax)=>{
-   var tx = await factory.methods.createNewPool(tokenAD,connectedAccount[0],buyTax,sellTax).send({from:connectedAccount[0]});
+export const createPool=async (buyTax,sellTax,lptax,ref)=>{
+   var tx = await factory.methods.createNewPool(tokenAD,connectedAccount[0],buyTax,sellTax,lptax,ref).send({from:connectedAccount[0]});
     return [tx.blockHash];
 }
 const getPoolInfo = ()=>{
     return poolInfo;
 }
-
-export const getEntirePoolObject=()=>{
-    return pool;
-}
-
-export const sendUSDToContract = async(amount)=>{
-    amount = web3.utils.toWei(amount);
-    try{var tokenContract = await new web3.eth.Contract(bep20ABI,USDAddress);
-    var tx  = await tokenContract.methods.transfer(tokenAD,amount).send({from:connectedAccount[0]});
-    console.log(tx.blockHash);
-    return [tx.blockHash];}
-    catch(e){
-        return [e.message,0];
-    }
-
-
-}
-
-export const addLiquidityThroughContract = async(tokenAMT,usdAMT)=>{
-    tokenAMT = web3.utils.toWei(tokenAMT);
-    usdAMT =web3.utils.toWei(usdAMT);
-    console.log(tokenAMT,usdAMT);
-   try{ var tokenContract = await new web3.eth.Contract(bep20ABI,tokenAD);
-    var tx = await tokenContract.methods.addInitialLiquidity(usdAMT,tokenAMT).send({from:connectedAccount[0]});
-    console.log(tx.blockHash);
-    getPool(tokenAD);
-    return [tx.blockHash];}
-    catch(e){
-        return [e.message,0];
-    }
-}
-
-export const removeLPContract=async()=>{
-    try{ var tokenContract = await new web3.eth.Contract(bep20ABI,tokenAD);
-        var tx = await tokenContract.methods.requestLiqudityRemoval().send({from:connectedAccount[0]});
-        console.log(tx.blockHash);
-        return [tx.blockHash];}
-        catch(e){
-            return [e.message,0];
-        }
-}
-
 
 const approveTX = async(tokenToApprove,amount)=>{
     amount=web3.utils.toWei(amount);

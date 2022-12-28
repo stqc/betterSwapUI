@@ -146,6 +146,16 @@ const factoryABI =[
           "internalType": "uint256",
           "name": "saleTax",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "ref",
+          "type": "address"
         }
       ],
       "name": "createNewPool",
@@ -173,6 +183,19 @@ const factoryABI =[
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "referalFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -182,6 +205,11 @@ const factoryABI =[
         {
           "internalType": "uint256",
           "name": "noTaxFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rf",
           "type": "uint256"
         }
       ],
@@ -207,6 +235,11 @@ const factoryABI =[
       "inputs": [],
       "name": "showFees",
       "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
         {
           "internalType": "uint256",
           "name": "",
@@ -261,7 +294,7 @@ const factoryABI =[
       "type": "function"
     }
   ]
-  const poolABI = [
+  const poolABI =  [
     {
       "inputs": [
         {
@@ -285,6 +318,11 @@ const factoryABI =[
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
+          "name": "LP",
+          "type": "uint256"
+        },
+        {
           "internalType": "address",
           "name": "usd",
           "type": "address"
@@ -297,6 +335,11 @@ const factoryABI =[
         {
           "internalType": "address",
           "name": "admin_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "ref",
           "type": "address"
         }
       ],
@@ -317,6 +360,19 @@ const factoryABI =[
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "LPenb",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -384,6 +440,19 @@ const factoryABI =[
       "name": "approveEmergencyWithdraw",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "autoLP",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -477,6 +546,19 @@ const factoryABI =[
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "lptx",
+          "type": "uint256"
+        }
+      ],
+      "name": "enableLP",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "factory",
       "outputs": [
@@ -510,6 +592,19 @@ const factoryABI =[
           "internalType": "bool",
           "name": "",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "referee",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -647,6 +742,32 @@ const factoryABI =[
     {
       "inputs": [],
       "name": "tokenPerUSD",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalBuyTax",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSaleTax",
       "outputs": [
         {
           "internalType": "uint256",
@@ -1262,17 +1383,6 @@ const tokenFactoryABI=[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_fundHolder",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "holder",
 				"type": "address"
 			}
@@ -1326,9 +1436,14 @@ const tokenFactoryABI=[
 				"internalType": "uint256",
 				"name": "LPtax",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "ref",
+				"type": "address"
 			}
 		],
-		"name": "createLPToken",
+		"name": "createSimpleToken",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -1342,41 +1457,26 @@ const tokenFactoryABI=[
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "symbol",
-				"type": "string"
-			},
-			{
 				"internalType": "uint256",
-				"name": "supply",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "buyTax",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "saleTax",
+				"name": "feeAMT",
 				"type": "uint256"
 			}
 		],
-		"name": "createSimpleToken",
-		"outputs": [
+		"name": "setTokenCreationFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "_fundHolder",
 				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
+		"type": "constructor"
 	},
 	{
 		"inputs": [],
@@ -1415,19 +1515,6 @@ const tokenFactoryABI=[
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "feeAMT",
-				"type": "uint256"
-			}
-		],
-		"name": "setTokenCreationFee",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
